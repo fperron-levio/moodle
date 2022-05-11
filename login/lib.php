@@ -67,7 +67,8 @@ function core_login_process_password_reset_request() {
     // DISPLAY FORM.
 
     echo $OUTPUT->header();
-    echo $OUTPUT->box(get_string('passwordforgotteninstructions2'), 'generalbox boxwidthnormal boxaligncenter');
+    // echo $OUTPUT->box(get_string('passwordforgotteninstructions2'), 'generalbox boxwidthnormal boxaligncenter');
+    echo $OUTPUT->box(get_string('passwordforgotten'),'rsg_form_title');
     $mform->display();
 
     echo $OUTPUT->footer();

@@ -24,9 +24,13 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+<<<<<<< HEAD
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot.'/user/lib.php');
 require_once('lib.php');
+=======
+require_once($CFG->dirroot.'/auth/rsg/classes/RSG_Form.php');
+>>>>>>> 53c7824162b... Changements dans le login
 
 /**
  * Reset forgotten password form definition.
@@ -36,37 +40,27 @@ require_once('lib.php');
  * @copyright  2006 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class login_forgot_password_form extends moodleform {
+ 
+class login_forgot_password_form extends RSG_Form {
 
     /**
      * Define the forgot password form.
      */
+	 
+	 
     function definition() {
         global $USER;
 
         $mform    = $this->_form;
         $mform->setDisableShortforms(true);
 
-        // Hook for plugins to extend form definition.
-        core_login_extend_forgot_password_form($mform);
-
-        $mform->addElement('header', 'searchbyusername', get_string('searchbyusername'), '');
-
-        $purpose = user_edit_map_field_purpose($USER->id, 'username');
-        $mform->addElement('text', 'username', get_string('username'), 'size="20"' . $purpose);
-        $mform->setType('username', PARAM_RAW);
+        $mform->addElement('html', '<div class="rsg_form_info alert alert-info">' . get_string('contact_form_rsg_form_emailrequired_note','mod_rsg') . '</div>');
+        $mform->addElement('text', 'email', get_string('contact_form_rsg_form_emailrequired','mod_rsg'));
+        $mform->setType('email', PARAM_RAW);
+        $mform->addRule('email', get_string('mustbefilled'), 'required', null, 'server');
 
         $submitlabel = get_string('search');
-        $mform->addElement('submit', 'submitbuttonusername', $submitlabel);
-
-        $mform->addElement('header', 'searchbyemail', get_string('searchbyemail'), '');
-
-        $purpose = user_edit_map_field_purpose($USER->id, 'email');
-        $mform->addElement('text', 'email', get_string('email'), 'maxlength="100" size="30"' . $purpose);
-        $mform->setType('email', PARAM_RAW_TRIMMED);
-
-        $submitlabel = get_string('search');
-        $mform->addElement('submit', 'submitbuttonemail', $submitlabel);
+        $mform->addElement('submit', 'submitbuttonsearch', $submitlabel);
     }
 
     /**
@@ -76,13 +70,31 @@ class login_forgot_password_form extends moodleform {
      * @return array errors occuring during validation.
      */
     function validation($data, $files) {
+        global $CFG, $DB;
 
         $errors = parent::validation($data, $files);
 
-        // Extend validation for any form extensions from plugins.
-        $errors = array_merge($errors, core_login_validate_extend_forgot_password_form($data));
+       if (!empty($data['email'])) {
+            if (!validate_email($data['email'])) {
+                $errors['email'] = get_string('invalidemail');
 
-        $errors += core_login_validate_forgot_password_data($data);
+            } else if ($DB->count_records('user', array('email'=>$data['email'])) > 1) {
+                $errors['email'] = get_string('forgottenduplicate');
+
+            } else {
+                if ($user = get_complete_user_data('email', $data['email'])) {
+                    if (empty($user->confirmed)) {
+                        $errors['email'] = get_string('confirmednot');
+                    }
+                }
+                if (!$user and empty($CFG->protectusernames)) {
+                    $errors['email'] = get_string('contact_form_rsg_form_emailrequired_attention','mod_rsg');
+                }
+                if (!$user) {
+                    $errors['email'] = get_string('contact_form_rsg_form_emailrequired_attention','mod_rsg');
+                }
+            }
+        }
 
         return $errors;
     }

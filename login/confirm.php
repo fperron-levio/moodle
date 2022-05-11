@@ -24,21 +24,23 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require(__DIR__ . '/../config.php');
-require(__DIR__ . '/lib.php');
-require_once($CFG->libdir . '/authlib.php');
+require('../config.php');
 
 $data = optional_param('data', '', PARAM_RAW);  // Formatted as:  secret/username
 
 $p = optional_param('p', '', PARAM_ALPHANUM);   // Old parameter:  secret
 $s = optional_param('s', '', PARAM_RAW);        // Old parameter:  username
-$redirect = optional_param('redirect', '', PARAM_LOCALURL);    // Where to redirect the browser once the user has been confirmed.
 
 $PAGE->set_url('/login/confirm.php');
 $PAGE->set_context(context_system::instance());
 
-if (!$authplugin = signup_get_user_confirmation_authplugin()) {
-    throw new moodle_exception('confirmationnotenabled');
+if (empty($CFG->registerauth)) {
+    print_error('cannotusepage2');
+}
+$authplugin = get_auth_plugin($CFG->registerauth);
+
+if (!$authplugin->can_confirm()) {
+    print_error('cannotusepage2');
 }
 
 if (!empty($data) || (!empty($p) && !empty($s))) {
@@ -55,51 +57,42 @@ if (!empty($data) || (!empty($p) && !empty($s))) {
     $confirmed = $authplugin->user_confirm($username, $usersecret);
 
     if ($confirmed == AUTH_CONFIRM_ALREADY) {
-        $user = get_complete_user_data('username', $username);
+        // tâche #3849 - Empêcher la connexion d'un utilisateur quand il suit le lien de confirmation reçu par courriel lors de l'inscription QUAND IL A DÉJÀ ÉTÉ CONFIRMÉ
+        // la ligne "$USER = get_complete_user_data('username', $username);" connecte l'utilisateur qui a suivi le lien de confirmation
+        /*
+        $USER = get_complete_user_data('username', $username);
         $PAGE->navbar->add(get_string("alreadyconfirmed"));
         $PAGE->set_title(get_string("alreadyconfirmed"));
         $PAGE->set_heading($COURSE->fullname);
         echo $OUTPUT->header();
-        echo $OUTPUT->box_start('generalbox centerpara boxwidthnormal boxaligncenter');
-        echo "<p>".get_string("alreadyconfirmed")."</p>\n";
-        echo $OUTPUT->single_button(core_login_get_return_url(), get_string('courses'));
-        echo $OUTPUT->box_end();
-        echo $OUTPUT->footer();
+        notice("<h3>".get_string("thanks")." ". fullname($USER) . "</h3>\n" . get_string('alreadyconfirmed'), "$CFG->wwwroot");
         exit;
-
+        */
+        print_error('alreadyconfirmed');
+        // fin tâche #3849
     } else if ($confirmed == AUTH_CONFIRM_OK) {
 
         // The user has confirmed successfully, let's log them in
 
-        if (!$user = get_complete_user_data('username', $username)) {
+        if (!$USER = get_complete_user_data('username', $username)) {
             print_error('cannotfinduser', '', '', s($username));
         }
 
-        if (!$user->suspended) {
-            complete_user_login($user);
-
-            \core\session\manager::apply_concurrent_login_limit($user->id, session_id());
-
-            // Check where to go, $redirect has a higher preference.
-            if (!empty($redirect)) {
-                if (!empty($SESSION->wantsurl)) {
-                    unset($SESSION->wantsurl);
-                }
-                redirect($redirect);
-            }
-        }
+        complete_user_login($USER);
 
         $PAGE->navbar->add(get_string("confirmed"));
         $PAGE->set_title(get_string("confirmed"));
         $PAGE->set_heading($COURSE->fullname);
         echo $OUTPUT->header();
-        echo $OUTPUT->box_start('generalbox centerpara boxwidthnormal boxaligncenter');
-        echo "<h3>".get_string("thanks").", ". fullname($USER) . "</h3>\n";
-        echo "<p>".get_string("confirmed")."</p>\n";
-        echo $OUTPUT->single_button(core_login_get_return_url(), get_string('continue'));
-        echo $OUTPUT->box_end();
-        echo $OUTPUT->footer();
+        notice("<h3>".get_string("thanks")." ". fullname($USER) . "</h3>\n" . get_string('confirmed'), "$CFG->wwwroot");
         exit;
+
+        if ( ! empty($SESSION->wantsurl) ) {   // Send them where they were going
+            $goto = $SESSION->wantsurl;
+            unset($SESSION->wantsurl);
+            redirect($goto);
+        }
+
     } else {
         print_error('invalidconfirmdata');
     }
