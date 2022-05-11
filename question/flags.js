@@ -49,7 +49,7 @@ M.core_question_flags = {
 
             // Create an image input to replace the img tag.
             var image = Y.Node.create('<input type="image" class="questionflagimage" />');
-            var flagtext = Y.Node.create('<span class="questionflagtext">.</span>');
+            var flagtext = Y.Node.create('<span class="questionflagtext" style="display: none;">.</span>');
             M.core_question_flags.update_flag(input, image, flagtext);
 
             checkbox.remove();
