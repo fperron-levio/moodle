@@ -1,0 +1,51 @@
+.que.rsgtype textarea.qtype_rsgtype_response {
+    width: 100%;
+}
+.que.rsgtype textarea.qtype_rsgtype_response.qtype_rsgtype_plain {
+    white-space: pre-wrap;
+    font: inherit;
+}
+.que.rsgtype textarea.qtype_rsgtype_response.qtype_rsgtype_monospaced {
+    white-space: pre;
+    font-family: Andale Mono, Monaco, Courier New, DejaVu Sans Mono, monospace;
+}
+.que.rsgtype .qtype_rsgtype_response {
+    min-height: 3em;
+}
+.que.rsgtype .qtype_rsgtype_response.readonly {
+    background-color: white;
+}
+.que.rsgtype div.qtype_rsgtype_response textarea {
+    width: 100%;
+}
+
+/* Cacher des éléments non-désirés et arranger d'autres effects... */
+div.grade, div.state{
+    display: none ;
+}
+
+table.quizreviewsummary{
+    width: 95% !important;
+}
+
+table.quizreviewsummary tr:nth-of-type(2),table.quizreviewsummary tr:nth-of-type(5),table.quizreviewsummary tr:nth-of-type(6) {
+    display: none;
+}
+
+div.que div.outcome{
+    background-color: indianred;
+    color: #f5f5f5;
+}
+
+
+div.box.quizinfo{
+    visibility:hidden;
+}
+/*
+#page-footer{
+    display:none;
+}
+*/
+
+
+
