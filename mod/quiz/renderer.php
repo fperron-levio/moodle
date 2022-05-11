@@ -51,6 +51,33 @@ class mod_quiz_renderer extends plugin_renderer_base {
 
         $output = '';
         $output .= $this->header();
+
+        // Ajout RSG #1054
+        $output .= '<a type="button" class="btn green-button-rsg print" href="#" onClick="javascript:window.print();return false;" >' . get_string('rsg_quiz_autoevaluation_print','rsg') . '</a>';
+
+        $output .=$this->container($this->rsg_quiz_get_capsule_name(), 'rsg_capsule_name_quiz');
+        if ($lastpage) {
+            $link = $this->rsg_quiz_get_bonus_tool_url();
+            $label = get_string('rsg_quiz_bonus_tool_goto_button','rsg');
+            // todo: revoir la mécanique de bouton moodle au lieu de l'utilisation du html.
+            $bonus_tool_button = '<a id="rsg_quiz_bonus_tool_goto_button" class="afficher_boni afficher_boni_bis" href="'.$link.'" target="_blank">'. $label . '</a>';
+            $link_certificat = $this->rsg_quiz_get_certificat_url();
+            $label_certificat = get_string('rsg_quiz_bonus_tool_goto_button','rsg');
+            // todo: revoir la mécanique de bouton moodle au lieu de l'utilisation du html.
+            $certificat_button = '<a id="rsg_quiz_bonus_tool_goto_button" class="afficher_certificat" href="'.$link_certificat.'" target="_blank">'. $label_certificat . '</a>';
+            $texte_outil_boni = get_string('rsg_quiz_bonus_tool_available_message_outil_boni','rsg');
+            $texte_certificat = get_string('rsg_quiz_bonus_tool_available_message_certificat','rsg');
+
+            $structure = '<h5 style="text-align:center; font-size:12pt; margin-top: 0; margin-bottom: 13px;/* margin-left: 91px; */">'.get_string('rsg_quiz_bonus_tool_available_message','rsg').'</h5><div class="sous-section boxrsginfo" style="line-height: 11px;"><div class="sous-section-droite">'.$bonus_tool_button.'</div><div class="sous-section-gauche"  style="margin-bottom: -15px; ">'.$texte_outil_boni.'</div></div><div class="sous-section boxrsginfo" style="line-height: 11px;"><div class="sous-section-droite">'.$certificat_button.'</div><div class="sous-section-gauche" style="margin-bottom: -8px;">'.$texte_certificat.'</div></div>';
+
+            $output .= $this->container($structure);
+        }
+
+	$output .=$this->container(get_string('rsg_quiz_autoevaluation_title_review','rsg'), 'rsg_capsule_evaluation_title_quiz');
+
+        // RSG. Changement comportement.
+        $output .=$this->rsg_quiz_get_intro();
+
         $output .= $this->review_summary_table($summarydata, $page);
         $output .= $this->review_form($page, $showall, $displayoptions,
                 $this->questions($attemptobj, true, $slots, $page, $showall, $displayoptions),
@@ -216,8 +243,12 @@ class mod_quiz_renderer extends plugin_renderer_base {
                 'value' => sesskey()));
         $output .= html_writer::start_tag('div', array('class' => 'submitbtns'));
         $output .= html_writer::empty_tag('input', array('type' => 'submit',
-                'class' => 'questionflagsavebutton btn btn-secondary', 'name' => 'savingflags',
+                'class' => 'questionflagsavebutton', 'name' => 'savingflags',
                 'value' => get_string('saveflags', 'question')));
+        $output .= html_writer::end_tag('div');
+        $output .= html_writer::start_tag('div');
+        // Navigation RSG (dans la page plutôt que pseudo-bloc).
+        $output .= $this->rsg_quiz_get_attempt_form_review($attemptobj, $page, $attemptobj->get_slots());
         $output .= html_writer::end_tag('div');
         $output .= html_writer::end_tag('div');
         $output .= html_writer::end_tag('form');
@@ -238,12 +269,10 @@ class mod_quiz_renderer extends plugin_renderer_base {
                     array($url), false, quiz_get_js_module());
             return html_writer::empty_tag('input', array('type' => 'button',
                     'value' => get_string('finishreview', 'quiz'),
-                    'id' => 'secureclosebutton',
-                    'class' => 'mod_quiz-next-nav btn btn-primary'));
+                    'id' => 'secureclosebutton'));
 
         } else {
-            return html_writer::link($url, get_string('finishreview', 'quiz'),
-                    array('class' => 'mod_quiz-next-nav'));
+            return html_writer::link($url, get_string('finishreview', 'quiz'));
         }
     }
 
@@ -263,17 +292,13 @@ class mod_quiz_renderer extends plugin_renderer_base {
      */
     public function review_next_navigation(quiz_attempt $attemptobj, $page, $lastpage, $showall = null) {
         $nav = '';
-        if ($page > 0) {
-            $nav .= link_arrow_left(get_string('navigateprevious', 'quiz'),
-                    $attemptobj->review_url(null, $page - 1, $showall), false, 'mod_quiz-prev-nav');
-        }
         if ($lastpage) {
             $nav .= $this->finish_review_link($attemptobj);
         } else {
             $nav .= link_arrow_right(get_string('navigatenext', 'quiz'),
                     $attemptobj->review_url(null, $page + 1, $showall), false, 'mod_quiz-next-nav');
         }
-        return html_writer::tag('div', $nav, array('class' => 'submitbtns'));
+        return html_writer::tag('div', $nav, array('class' => 'submitbtns rsg_quiz_submitbtns'));
     }
 
     /**
@@ -329,14 +354,11 @@ class mod_quiz_renderer extends plugin_renderer_base {
         $output .= $panel->render_before_button_bits($this);
 
         $bcc = $panel->get_button_container_class();
-        $output .= html_writer::start_tag('div', array('class' => "qn_buttons clearfix $bcc"));
-        foreach ($panel->get_question_buttons() as $button) {
-            $output .= $this->render($button);
-        }
+	$output .= html_writer::start_tag('div', array('class' => "qn_buttons clearfix $bcc"));
+	foreach ($panel->get_question_buttons() as $button) {
+	    $output .= $this->render($button);
+	}
         $output .= html_writer::end_tag('div');
-
-        $output .= html_writer::tag('div', $panel->render_end_bits($this),
-                array('class' => 'othernav'));
 
         $this->page->requires->js_init_call('M.mod_quiz.nav.init', null, false,
                 quiz_get_js_module());
@@ -351,7 +373,7 @@ class mod_quiz_renderer extends plugin_renderer_base {
      * @return string HTML fragment.
      */
     protected function render_quiz_nav_question_button(quiz_nav_question_button $button) {
-        $classes = array('qnbutton', $button->stateclass, $button->navmethod, 'btn');
+        $classes = array('qnbutton rsg_quiz_navig_button', $button->stateclass, $button->navmethod);
         $extrainfo = array();
 
         if ($button->currentpage) {
@@ -379,9 +401,10 @@ class mod_quiz_renderer extends plugin_renderer_base {
         $a->attributes = implode(' ', $extrainfo);
         $tagcontents = html_writer::tag('span', '', array('class' => 'thispageholder')) .
                         html_writer::tag('span', '', array('class' => 'trafficlight')) .
-                        get_string($qnostring, 'quiz', $a);
+                        get_string($qnostring, 'quiz', $a) .
+                        html_writer::tag('span', $button->extralabel, array('class' => 'rsg_quiz_navig_button_extralabel')) /* Hack CAD/RSG */;
         $tagattributes = array('class' => implode(' ', $classes), 'id' => $button->id,
-                                  'title' => $button->statestring, 'data-quiz-page' => $button->page);
+                                  'title' => $button->statestring);
 
         if ($button->url) {
             return html_writer::link($button->url, $tagcontents, $tagattributes);
@@ -425,8 +448,9 @@ class mod_quiz_renderer extends plugin_renderer_base {
         $output .= $this->header();
         $output .= $this->heading(format_string($quizobj->get_quiz_name(), true,
                                   array("context" => $quizobj->get_context())));
-        $output .= $this->quiz_intro($quizobj->get_quiz(), $quizobj->get_cm());
-        $output .= $mform->render();
+        ob_start();
+        $mform->display();
+        $output .= ob_get_clean();
         $output .= $this->footer();
         return $output;
     }
@@ -443,11 +467,11 @@ class mod_quiz_renderer extends plugin_renderer_base {
      * @param int $nextpage The number of the next page
      */
     public function attempt_page($attemptobj, $page, $accessmanager, $messages, $slots, $id,
-            $nextpage) {
+            $nextpage, $previouspage="") {
         $output = '';
         $output .= $this->header();
         $output .= $this->quiz_notices($messages);
-        $output .= $this->attempt_form($attemptobj, $page, $slots, $id, $nextpage);
+        $output .= $this->attempt_form($attemptobj, $page, $slots, $id, $nextpage, $previouspage);
         $output .= $this->footer();
         return $output;
     }
@@ -474,50 +498,15 @@ class mod_quiz_renderer extends plugin_renderer_base {
      * @param int $id ID of the attempt
      * @param int $nextpage Next page number
      */
-    public function attempt_form($attemptobj, $page, $slots, $id, $nextpage) {
-        $output = '';
+    public function attempt_form($attemptobj, $page, $slots, $id, $nextpage, $previouspage="") {
 
-        // Start the form.
-        $output .= html_writer::start_tag('form',
-                array('action' => new moodle_url($attemptobj->processattempt_url(),
-                array('cmid' => $attemptobj->get_cmid())), 'method' => 'post',
-                'enctype' => 'multipart/form-data', 'accept-charset' => 'utf-8',
-                'id' => 'responseform'));
-        $output .= html_writer::start_tag('div');
-
-        // Print all the questions.
-        foreach ($slots as $slot) {
-            $output .= $attemptobj->render_question($slot, false, $this,
-                    $attemptobj->attempt_url($slot, $page), $this);
-        }
-
-        $navmethod = $attemptobj->get_quiz()->navmethod;
-        $output .= $this->attempt_navigation_buttons($page, $attemptobj->is_last_page($page), $navmethod);
-
-        // Some hidden fields to trach what is going on.
-        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'attempt',
-                'value' => $attemptobj->get_attemptid()));
-        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'thispage',
-                'value' => $page, 'id' => 'followingpage'));
-        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'nextpage',
-                'value' => $nextpage));
-        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'timeup',
-                'value' => '0', 'id' => 'timeup'));
-        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'sesskey',
-                'value' => sesskey()));
-        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'scrollpos',
-                'value' => '', 'id' => 'scrollpos'));
-
-        // Add a hidden field with questionids. Do this at the end of the form, so
-        // if you navigate before the form has finished loading, it does not wipe all
-        // the student's answers.
-        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'slots',
-                'value' => implode(',', $attemptobj->get_active_slots($page))));
-
-        // Finish the form.
-        $output .= html_writer::end_tag('div');
-        $output .= html_writer::end_tag('form');
-
+        $output = "";
+        $output .=$this->container($this->rsg_quiz_get_capsule_name(), 'rsg_capsule_name_quiz');
+        $output .=$this->container(get_string('rsg_quiz_autoevaluation_title','rsg'), 'rsg_capsule_evaluation_title_quiz');
+        $output .=$this->rsg_quiz_get_intro();
+        // Test: Ajouter un message informatif. C'est presque sûr que ce problème va revenir (sauvegarde implicite dans Moodle).
+        $output .= '<div class=" hide rsg_quiz_autosave_notice alert alert-warning">' . get_string('rsg_quiz_attempt_autosave_notice', 'rsg') . '</div>';
+        $output .=  $this->rsg_quiz_get_attempt_form($attemptobj, $page, $slots, $id, $nextpage, $previouspage);
         $output .= $this->connection_warning();
 
         return $output;
@@ -633,10 +622,15 @@ class mod_quiz_renderer extends plugin_renderer_base {
     public function summary_page($attemptobj, $displayoptions) {
         $output = '';
         $output .= $this->header();
-        $output .= $this->heading(format_string($attemptobj->get_quiz_name()));
-        $output .= $this->heading(get_string('summaryofattempt', 'quiz'), 3);
+        $output .=$this->container($this->rsg_quiz_get_capsule_name(), 'rsg_capsule_name_quiz');
+        $output .=$this->container(get_string('rsg_quiz_autoevaluation_title','rsg'), 'rsg_capsule_evaluation_title_quiz');
+
+	$finish = $this->rsg_quiz_get_attempt_state($attemptobj);
+         /* Demande Mohamed, le message doit apparaitre au dessus du tableau. */
+        $output .= $this->rsg_quiz_get_summary_message($finish);
+        $output .= $this->heading(get_string('rsg_quiz_summary_questions', 'rsg'), 3, "rsg_level3_quiz");
         $output .= $this->summary_table($attemptobj, $displayoptions);
-        $output .= $this->summary_page_controls($attemptobj);
+        $output .= $this->summary_page_controls($attemptobj, $finish);
         $output .= $this->footer();
         return $output;
     }
@@ -651,7 +645,6 @@ class mod_quiz_renderer extends plugin_renderer_base {
         // Prepare the summary table header.
         $table = new html_table();
         $table->attributes['class'] = 'generaltable quizsummaryofattempt boxaligncenter';
-        $table->head = array(get_string('question', 'quiz'), get_string('status', 'quiz'));
         $table->align = array('left', 'left');
         $table->size = array('', '');
         $markscolumn = $displayoptions->marks >= question_display_options::MARK_AND_MAX;
@@ -660,37 +653,22 @@ class mod_quiz_renderer extends plugin_renderer_base {
             $table->align[] = 'left';
             $table->size[] = '';
         }
-        $tablewidth = count($table->align);
         $table->data = array();
 
         // Get the summary info for each question.
         $slots = $attemptobj->get_slots();
         foreach ($slots as $slot) {
-            // Add a section headings if we need one here.
-            $heading = $attemptobj->get_heading_before_slot($slot);
-            if ($heading) {
-                $cell = new html_table_cell(format_string($heading));
-                $cell->header = true;
-                $cell->colspan = $tablewidth;
-                $table->data[] = array($cell);
-                $table->rowclasses[] = 'quizsummaryheading';
-            }
-
-            // Don't display information items.
             if (!$attemptobj->is_real_question($slot)) {
                 continue;
             }
-
-            // Real question, show it.
             $flag = '';
             if ($attemptobj->is_question_flagged($slot)) {
-                // Quiz has custom JS manipulating these image tags - so we can't use the pix_icon method here.
-                $flag = html_writer::empty_tag('img', array('src' => $this->image_url('i/flagged'),
+                $flag = html_writer::empty_tag('img', array('src' => $this->pix_url('i/flagged'),
                         'alt' => get_string('flagged', 'question'), 'class' => 'questionflag icon-post'));
             }
             if ($attemptobj->can_navigate_to($slot)) {
                 $row = array(html_writer::link($attemptobj->attempt_url($slot),
-                        $attemptobj->get_question_number($slot) . $flag),
+                        'Question '.$attemptobj->get_question_number($slot) . $flag),
                         $attemptobj->get_question_status($slot, $displayoptions->correctness));
             } else {
                 $row = array($attemptobj->get_question_number($slot) . $flag,
@@ -700,7 +678,7 @@ class mod_quiz_renderer extends plugin_renderer_base {
                 $row[] = $attemptobj->get_question_mark($slot);
             }
             $table->data[] = $row;
-            $table->rowclasses[] = 'quizsummary' . $slot . ' ' . $attemptobj->get_question_state_class(
+            $table->rowclasses[] = $attemptobj->get_question_state_class(
                     $slot, $displayoptions->correctness);
         }
 
@@ -715,25 +693,15 @@ class mod_quiz_renderer extends plugin_renderer_base {
      *
      * @param quiz_attempt $attemptobj
      */
-    public function summary_page_controls($attemptobj) {
+    public function summary_page_controls($attemptobj, $finish=false) {
+
         $output = '';
-
-        // Return to place button.
-        if ($attemptobj->get_state() == quiz_attempt::IN_PROGRESS) {
-            $button = new single_button(
-                    new moodle_url($attemptobj->attempt_url(null, $attemptobj->get_currentpage())),
-                    get_string('returnattempt', 'quiz'));
-            $output .= $this->container($this->container($this->render($button),
-                    'controls'), 'submitbtns mdl-align');
-        }
-
         // Finish attempt button.
         $options = array(
             'attempt' => $attemptobj->get_attemptid(),
             'finishattempt' => 1,
             'timeup' => 0,
             'slots' => '',
-            'cmid' => $attemptobj->get_cmid(),
             'sesskey' => sesskey(),
         );
 
@@ -756,8 +724,12 @@ class mod_quiz_renderer extends plugin_renderer_base {
         }
 
         $output .= $this->countdown_timer($attemptobj, time());
-        $output .= $this->container($message . $this->container(
-                $this->render($button), 'controls'), 'submitbtns mdl-align');
+        // Changement CAD/RSG
+        if ($finish){ //condition ajoutée pour afficher boutton envoyer si tout répondu
+            $message .= $this->container(
+                $this->render($button), 'controls');
+        }
+        $output .=$this->container($message , 'submitbtns mdl-align');
 
         return $output;
     }
@@ -783,7 +755,6 @@ class mod_quiz_renderer extends plugin_renderer_base {
         $output = '';
         $output .= $this->view_information($quiz, $cm, $context, $viewobj->infomessages);
         $output .= $this->view_table($quiz, $context, $viewobj);
-        $output .= $this->view_result_info($quiz, $context, $cm, $viewobj);
         $output .= $this->box($this->view_page_buttons($viewobj), 'quizattempt');
         return $output;
     }
@@ -803,18 +774,10 @@ class mod_quiz_renderer extends plugin_renderer_base {
             $output .= $this->no_questions_message($viewobj->canedit, $viewobj->editurl);
         }
 
-        $output .= $this->access_messages($viewobj->preventmessages);
-
         if ($viewobj->buttontext) {
             $output .= $this->start_attempt_button($viewobj->buttontext,
-                    $viewobj->startattempturl, $viewobj->preflightcheckform,
+                    $viewobj->startattempturl, false ,
                     $viewobj->popuprequired, $viewobj->popupoptions);
-        }
-
-        if ($viewobj->showbacktocourse) {
-            $output .= $this->single_button($viewobj->backtocourseurl,
-                    get_string('backtocourse', 'quiz'), 'get',
-                    array('class' => 'continuebutton'));
         }
 
         return $output;
@@ -831,39 +794,32 @@ class mod_quiz_renderer extends plugin_renderer_base {
      * @return string HTML fragment.
      */
     public function start_attempt_button($buttontext, moodle_url $url,
-            mod_quiz_preflight_check_form $preflightcheckform = null,
-            $popuprequired = false, $popupoptions = null) {
-
-        if (is_string($preflightcheckform)) {
-            // Calling code was not updated since the API change.
-            debugging('The third argument to start_attempt_button should now be the ' .
-                    'mod_quiz_preflight_check_form from ' .
-                    'quiz_access_manager::get_preflight_check_form, not a warning message string.');
-        }
-
+            $startattemptwarning, $popuprequired, $popupoptions) {
         $button = new single_button($url, $buttontext);
         $button->class .= ' quizstartbuttondiv';
+
+        $warning = '';
         if ($popuprequired) {
+            $this->page->requires->js_module(quiz_get_js_module());
+            $this->page->requires->js('/mod/quiz/module.js');
+            $popupaction = new popup_action('click', $url, 'quizpopup', $popupoptions);
+
             $button->class .= ' quizsecuremoderequired';
+            $button->add_action(new component_action('click',
+                    'M.mod_quiz.secure_window.start_attempt_action', array(
+                        'url' => $url->out(false),
+                        'windowname' => 'quizpopup',
+                        'options' => $popupaction->get_js_options(),
+                        'fullscreen' => true,
+                        'startattemptwarning' => $startattemptwarning,
+                    )));
+
+            $warning = html_writer::tag('noscript', $this->heading(get_string('noscript', 'quiz')));
+        } else if ($startattemptwarning) {
+            $button->add_action(new confirm_action($startattemptwarning, null,
+                    get_string('startattempt', 'quiz'))); /* */
         }
-
-        $popupjsoptions = null;
-        if ($popuprequired && $popupoptions) {
-            $action = new popup_action('click', $url, 'popup', $popupoptions);
-            $popupjsoptions = $action->get_js_options();
-        }
-
-        if ($preflightcheckform) {
-            $checkform = $preflightcheckform->render();
-        } else {
-            $checkform = null;
-        }
-
-        $this->page->requires->js_call_amd('mod_quiz/preflightcheck', 'init',
-                array('.quizstartbuttondiv [type=submit]', get_string('startattempt', 'quiz'),
-                       '#mod_quiz_preflight_form', $popupjsoptions));
-
-        return $this->render($button) . $checkform;
+        return $this->render($button) . $warning;
     }
 
     /**
@@ -898,8 +854,8 @@ class mod_quiz_renderer extends plugin_renderer_base {
         $output .= $this->view_information($quiz, $cm, $context, $messages);
         $guestno = html_writer::tag('p', get_string('guestsno', 'quiz'));
         $liketologin = html_writer::tag('p', get_string('liketologin'));
-        $referer = get_local_referer(false);
-        $output .= $this->confirm($guestno."\n\n".$liketologin."\n", get_login_url(), $referer);
+        $output .= $this->confirm($guestno."\n\n".$liketologin."\n", get_login_url(),
+                get_referer(false));
         return $output;
     }
 
@@ -937,10 +893,9 @@ class mod_quiz_renderer extends plugin_renderer_base {
 
         $output = '';
 
-        // Print quiz name and description.
-        $output .= $this->heading(format_string($quiz->name));
-        $output .= $this->quiz_intro($quiz, $cm);
-
+        $output .=$this->container($this->rsg_quiz_get_capsule_name(), 'rsg_capsule_name_quiz');
+        $output .= html_writer::tag('p', get_string('rsg_quiz_autoevaluation_instrution', 'rsg'));
+        $output .= html_writer::tag('div', get_string('rsg_quiz_autoevaluation_instrution_time', 'rsg'), array('class'=>'quiz-time'));
         // Output any access messages.
         if ($messages) {
             $output .= $this->box($this->access_messages($messages), 'quizinfo');
@@ -990,6 +945,9 @@ class mod_quiz_renderer extends plugin_renderer_base {
             return '';
         }
 
+        //On n'utlise que le dernier essai
+        $all_attemps=$viewobj->attemptobjs;
+        $attemptobj=$all_attemps[count($all_attemps)-1];
         // Prepare table header.
         $table = new html_table();
         $table->attributes['class'] = 'generaltable quizattemptsummary';
@@ -1013,11 +971,6 @@ class mod_quiz_renderer extends plugin_renderer_base {
         if ($viewobj->gradecolumn) {
             $table->head[] = get_string('grade') . ' / ' .
                     quiz_format_grade($quiz, $quiz->grade);
-            $table->align[] = 'center';
-            $table->size[] = '';
-        }
-        if ($viewobj->canreviewmine) {
-            $table->head[] = get_string('review', 'quiz');
             $table->align[] = 'center';
             $table->size[] = '';
         }
@@ -1062,7 +1015,6 @@ class mod_quiz_renderer extends plugin_renderer_base {
                     // Highlight the highest grade if appropriate.
                     if ($viewobj->overallstats && !$attemptobj->is_preview()
                             && $viewobj->numattempts > 1 && !is_null($viewobj->mygrade)
-                            && $attemptobj->get_state() == quiz_attempt::FINISHED
                             && $attemptgrade == $viewobj->mygrade
                             && $quiz->grademethod == QUIZ_GRADEHIGHEST) {
                         $table->rowclasses[$attemptobj->get_attempt_number()] = 'bestrow';
@@ -1095,7 +1047,6 @@ class mod_quiz_renderer extends plugin_renderer_base {
         } // End of loop over attempts.
 
         $output = '';
-        $output .= $this->view_table_heading();
         $output .= html_writer::table($table);
         return $output;
     }
@@ -1281,8 +1232,198 @@ class mod_quiz_renderer extends plugin_renderer_base {
                     array('id' => 'connection-error', 'style' => 'display: none;', 'role' => 'alert')) .
                     html_writer::tag('div', $ok, array('id' => 'connection-ok', 'style' => 'display: none;', 'role' => 'alert'));
     }
-}
 
+    /**
+     *
+     * todo: CAD/RSG doc.
+     * Affichage de l'intro dans les questions. Comportement non-standard.
+     * Attention: copie de la fonctionnalité qui se trouve dans la fonction quiz_intro (mais paramètres requis non-reçus).
+     */
+    public function rsg_quiz_get_intro(){
+        global $PAGE, $DB;
+        $output = $this->quiz_intro($DB->get_record('quiz', array('id'=>$PAGE->cm->instance)), $PAGE->cm);
+        return $output;
+    }
+
+    /**
+     * Cette fonction est très imbriquée avec la logique de traitement de Moodle.
+     * On assume que l'utilisateur y arrive en ayant passe par mod/rsg/view.php....
+     * Récupère le nom de la capsule.
+     * @return string
+     */
+    public function rsg_quiz_get_capsule_name() {
+        /* todo: bug si logout, la variable n'existe plus et le nom de la capsule n'est pas affichée). */
+        global $DB, $COURSE;
+
+        /* Attention, test mode local pourrait retourner des résultats étranges... */
+        $results=$DB->get_records('rsg', array('course'=>$COURSE->id),'','name', null, 1);
+        $capsule = reset($results);
+
+        return $capsule->name;
+    }
+
+    /**
+     *
+     * todo: CAD/RSG doc.
+     * Pour affichage du bouton quitter (non standard).
+     */
+    public function rsg_quiz_get_quit_button() {
+        global $CFG;
+        $link=$CFG->wwwroot.'/mod/rsg/catalogue'; /*  todo: path hardcodé */
+
+        $output ='';
+        /* todo: utilisation bouton moodle standard? */
+        $output .= '<a id="quiz_rsg_close_modal" type="button" class="btn " data-dismiss="modal" aria-hidden="true" href="' .$link. '">' . get_string('rsg_quiz_quit_button', 'rsg') . '</a><div style:"clear:both"></div>';
+        return $output;
+    }
+
+    /**
+     *
+     * todo: CAD/RSG doc.
+     * Changements look form "review". Non standard.
+     */
+    public function rsg_quiz_get_attempt_form_review($attemptobj, $page, $slots) {
+        $output = "";
+
+        $output .= html_writer::start_tag('div', array('class' => 'submitbtns'));
+        $showAll = false;
+        $navbc = $attemptobj->get_navigation_panel($this /* $this, not $output like in review.php */, 'quiz_review_nav_panel', $page, $showAll);
+        $output .=$navbc->content;
+        $output .= $this->rsg_quiz_get_quit_button();
+        $output .= html_writer::end_tag('div');
+
+        return $output;
+    }
+
+    /**
+     *
+     * todo: CAD/RSG doc.
+     * Changemetns look form "attemp". Non standard.
+     */
+    public function rsg_quiz_get_attempt_form($attemptobj, $page, $slots, $id=null, $nextpage=-1, $previouspage=-1) {
+        $output = "";
+        $output .= html_writer::start_tag('form',
+                array('action' => $attemptobj->processattempt_url(), 'method' => 'post',
+                'enctype' => 'multipart/form-data', 'accept-charset' => 'utf-8',
+                'id' => 'responseform'));
+        $output .= html_writer::start_tag('div');
+
+        // Print all the questions.
+        foreach ($slots as $slot) {
+            $output .= $attemptobj->render_question($slot, false, $this,
+                    $attemptobj->attempt_url($slot, $page), $this);
+        }
+
+        $output .= html_writer::start_tag('div', array('class' => 'submitbtns'));
+
+        $navbc = $attemptobj->get_navigation_panel($this, 'quiz_attempt_nav_panel', $page);
+        $output.=$navbc->content;
+
+        // Afficher page précédantes dans toutes les pages sauf la première.
+        // Déduire selon $nextpage.
+        // En réalité la page précédante de la page 1 pourrait être la page d'accueil du quiz.
+        if ($previouspage != -1) {
+            $output .= html_writer::empty_tag('input', array('type' => 'submit', 'name' => 'previous',
+                'value' => get_string('rsg_quiz_previous_button', 'rsg')));
+        }
+        $output .= html_writer::empty_tag('input', array('type' => 'submit', 'name' => 'next',
+                'value' => get_string('rsg_quiz_next_button', 'rsg')));
+        /* Le bouton quitter doit apparaitre après bouton suivant. */
+        $output .= $this->rsg_quiz_get_quit_button();
+        $output .= html_writer::end_tag('div');
+
+        // Some hidden fields to track what is going on.
+        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'attempt',
+                'value' => $attemptobj->get_attemptid()));
+        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'thispage',
+                'value' => $page, 'id' => 'followingpage'));
+        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'previouspage',
+                'value' => $previouspage));
+        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'nextpage',
+                'value' => $nextpage));
+        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'timeup',
+                'value' => '0', 'id' => 'timeup'));
+        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'sesskey',
+                'value' => sesskey()));
+        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'scrollpos',
+                'value' => '', 'id' => 'scrollpos'));
+
+        // Add a hidden field with questionids. Do this at the end of the form, so
+        // if you navigate before the form has finished loading, it does not wipe all
+        // the student's answers.
+        $output .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'slots',
+                'value' => implode(',', $slots)));
+        // Finish the form.
+        $output .= html_writer::end_tag('div');
+        $output .= html_writer::end_tag('form');
+
+        return $output;
+    }
+
+    /**
+     *
+     * todo: CAD/RSG doc.
+     * Affichage du message sommaire final selon l'état de complétion des questions. Non standard.
+     */
+    public function rsg_quiz_get_summary_message($finish) {
+        $output = '';
+        if (!$finish){
+            /* todo: corriger span icon dans le string */
+            $output .=$this->container(get_string('rsg_quiz_summary_notcompleted','rsg'), 'alert alert-error');
+        }
+        else{
+             /* todo: corriger span icon dans le string */
+             $output .=$this->container(get_string('rsg_quiz_summary_completed','rsg'), 'alert alert-success');
+        }
+
+        return $output;
+    }
+
+    /**
+     *
+     * todo: CAD/RSG  doc.
+     * Retourne state de la question (?). Non standard.
+     */
+    public function rsg_quiz_get_attempt_state($attemptobj) {
+        // Changement CAD/RSG
+        //juste indicatif des questions
+        $the_slots = $attemptobj->get_slots();
+        $finish=true;
+        foreach ($the_slots as $slot){
+            $try=$attemptobj->get_question_status($slot, true);
+            //on vérifie que toutes les questions soient répondues
+            if ($try==get_string('notyetanswered','question')){
+                $finish=false;
+                break;
+            }
+        }
+        //fin ajout
+        return $finish;
+    }
+
+    /**
+     *
+     * todo: CAD/RSG  doc.
+     * Retourne url outil bonus. Non standard.
+     */
+    public function rsg_quiz_get_bonus_tool_url() {
+        global $COURSE, $DB, $CFG;
+        $caps_id = $DB->get_records('rsg', array('course' => $COURSE->id), '', 'id');
+        $link = $CFG->wwwroot.'/mod/rsg/view.php?id='.reset($caps_id)->id.'&part=1&from=0';
+        return $link;
+    }
+    /**
+     *
+     * todo: CAD/RSG  doc.
+     * Retourne url certificat. Non standard.
+     */
+    public function rsg_quiz_get_certificat_url() {
+        global $COURSE, $DB, $CFG;
+        $caps_id = $DB->get_records('rsg', array('course' => $COURSE->id), '', 'id');
+        $link = $CFG->wwwroot . '/mod/rsg/classes/pdfcertificatecapsule.php?capsule='.reset($caps_id)->id;
+        return $link;
+    }
+}
 
 class mod_quiz_links_to_other_attempts implements renderable {
     /**
@@ -1341,6 +1482,8 @@ class mod_quiz_view_object {
     /** @var string $buttontext caption for the start attempt button. If this is null, show no
      *      button, or if it is '' show a back to the course button. */
     public $buttontext;
+    /** @var string $startattemptwarning alert to show the user before starting an attempt. */
+    public $startattemptwarning;
     /** @var moodle_url $startattempturl URL to start an attempt. */
     public $startattempturl;
     /** @var moodleform|null $preflightcheckform confirmation form that must be

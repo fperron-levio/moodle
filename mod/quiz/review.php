@@ -154,28 +154,12 @@ if ($attemptobj->has_capability('mod/quiz:viewreports')) {
     }
 }
 
-// Timing information.
-$summarydata['startedon'] = array(
-    'title'   => get_string('startedon', 'quiz'),
-    'content' => userdate($attempt->timestart),
-);
-
-$summarydata['state'] = array(
-    'title'   => get_string('attemptstate', 'quiz'),
-    'content' => quiz_attempt::state_name($attempt->state),
-);
-
 if ($attempt->state == quiz_attempt::FINISHED) {
     $summarydata['completedon'] = array(
         'title'   => get_string('completedon', 'quiz'),
-        'content' => userdate($attempt->timefinish),
-    );
-    $summarydata['timetaken'] = array(
-        'title'   => get_string('timetaken', 'quiz'),
-        'content' => $timetaken,
+        'content' => userdate($attempt->timefinish,  get_string('strftimedate', 'langconfig')),
     );
 }
-
 if (!empty($overtime)) {
     $summarydata['overdue'] = array(
         'title'   => get_string('overdue', 'quiz'),
@@ -255,7 +239,27 @@ $navbc = $attemptobj->get_navigation_panel($output, 'quiz_review_nav_panel', $pa
 $regions = $PAGE->blocks->get_regions();
 $PAGE->blocks->add_fake_block($navbc, reset($regions));
 
-echo $output->review_page($attemptobj, $slots, $page, $showall, $lastpage, $options, $summarydata);
+// Changement CAD/RSG
+//on affiche la possibilité d'aller chercher l'outil au début de la révision...
+//Éviter que quelqu'un qui soumet le quiz vide aie accès au outil
+$my_att=$attemptobj->get_attempt();
 
-// Trigger an event for this review.
-$attemptobj->fire_attempt_reviewed_event();
+if ($page==0 && $my_att->state=='finished'){ //Il y a des questions qui ne sont pas notées
+    global $COURSE, $DB, $CFG;
+    $caps_id=$DB->get_records('rsg',array('course'=>$COURSE->id),'','id');
+    /* todo eg: remove link here, not used anymore. */
+    $link=$CFG->wwwroot.'/mod/rsg/view.php?id='.reset($caps_id)->id.'&part=1&from=0';
+    $qte_pages=$attemptobj->get_num_pages();
+
+    $PAGE->requires->strings_for_js(array(
+        'rsg_quiz_dialog_feedback_exemple_answer_title',
+        'rsg_quiz_dialog_feedback_exemple_answer_message',
+        'rsg_quiz_dialog_feedback_exemple_answer_button',
+    ), 'rsg');
+
+    $PAGE->requires->js("/mod/rsg/javascript/test_review_quiz.js", true);
+    $PAGE->requires->js_init_call('test_review_quiz',array('link'=>$link,'qte_pages'=>$qte_pages),true);
+}
+//Fin de l'ajout
+
+echo $output->review_page($attemptobj, $slots, $page, $showall, $lastpage, $options, $summarydata);
