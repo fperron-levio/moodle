@@ -1,0 +1,377 @@
+﻿<?php
+header("Content-type:text/css"); 
+chdir('..');
+require_once('../../../config.php');
+ 
+//::cacheComponent(31536000);
+
+///require("style.php");
+//require("imap.php");
+//require("feedback.php");#title h1
+//require("calendar.php");
+
+?>
+
+/*<style type="text/css">*/
+
+
+/*----CSS RESET-------*/
+/* Login */
+/* force clear. */
+
+@media (min-width: 767px) { 
+    .modal
+    {
+        width: 560px;
+        margin-left: -287px; /* ATTENTION. Calcul de cet offset doit être (width + marges) /2 */
+    }
+ }
+ 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) { }
+
+@media (max-width: 767px){
+	body 
+	{
+		padding: 0px !important;
+	}
+	.wrapper
+	{
+		background-position-y: 240px !important;
+	}
+}
+
+body.login
+{
+	background:#2b4652 /*#10353E*/;
+
+}
+
+.wrapper 
+{
+	padding:0;
+
+	background:rgb(76,197,187);
+
+	background-image:url(<?= $CFG->wwwroot ?>/theme/cleanrsg/pix/themeByPass/login/bg.jpg); /* repeat-x 0px 100px #11353f*/
+    background-image:url(<?= $CFG->wwwroot ?>/theme/cleanrsg/pix/themeByPass/login/login_fond_20170330.png);
+ 
+	background-repeat:repeat-x;
+	/* Ajustement à compléter, le bas, couleur de fond. */
+	/* Il y a plus à gagner dans le top (pixels répétés). */
+	background-position-x:center;
+	background-position-y:14px;
+
+	font-family: 'Open Sans', sans-serif; font-size:12px;
+}
+
+#all {
+ position:relative; 
+}
+
+/* FIX. .accesshide provient des définitions "core" de Moodle. Sert à masquer des champs pour accessibilité.
+   On doit dupliquer le style parce que le login RSG qui n'utilise pas les styles css du thème.
+   Voir par ex. affichage erreur de login dans login/index_form.html
+ */
+.accesshide {
+    position: absolute;
+    left: -10000px;
+    font-weight: normal;
+    font-size: 1em;
+}
+
+#in_background_bottom {
+	background:rgb(17,53,63);
+	/*width:100%;
+	height:100%;
+	*/
+	/*background:red;*/ /* debug */
+}
+/* Formulaire */
+#mobile_header { min-width:295px; /*max-width:581px;*/ position:relative; margin:auto;background:white;}
+
+#title { 
+    min-width: 295px; 
+    max-width: 768px; 
+    position: relative;
+    margin: auto;
+    /* background: url(<?= $CFG->wwwroot ?>/theme/cleanrsg/pix/themeByPass/common/rsg_logo_et_liens.png) no-repeat #fff; */
+    background: url(<?= $CFG->wwwroot ?>/theme/cleanrsg/pix/themeByPass/common/logo_rsg_plus_lien.png) no-repeat #fff;
+   
+}
+/* Eg. Style et construction du header à revalider. Texte pour indexation du site? */
+#title h1 {
+    height:54px; 
+    margin:0px; 
+    /* background:url(<?= $CFG->wwwroot ?>/theme/cleanrsg/pix/themeByPass/common/rsg_logo_complet.png) 24px center no-repeat #fff; */
+    font-size:20px; 
+    font-weight:normal;
+    font-family: 'Sanchez', serif;
+}
+#title h1 span {display:none;}
+.hide-text {
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#conteneur_apropos {
+  background: none;
+  position: absolute; 
+  right: 0; 
+  z-index: 30; 
+  top: 0;
+} 
+#conteneur_apropos div {
+  height: 54px; 
+  width: 180px;
+}
+#conteneur_perfectionnement {
+  background: none;
+  position: absolute; 
+  right: 250px; 
+  z-index: 30; 
+  top: 0;
+} 
+#conteneur_perfectionnement div {
+  height: 54px; 
+  width: 335px;
+}
+footer.links span {
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  border-left:1px solid #258c7e; 
+  padding-right: 3px;
+  margin-left: 8px;
+}
+
+#title #tagrsg { width:105px; height:105px; background:url(<?= $CFG->wwwroot ?>/theme/cleanrsg/pix/themeByPass/login/rsg_tag.png) no-repeat; display:block; position:absolute; right:-35px; z-index:30; top:10px;}
+/* Eg. À corriger, devrait être plus petit selon la maquette photoshop. */
+#title #tagrsg_mobile{ width:105px; height:105px; background:url(<?= $CFG->wwwroot ?>/theme/cleanrsg/pix/themeByPass/login/rsg_tag.png) no-repeat; display:block; position:absolute; right:0px; z-index:30; top:10px;}
+#title #tagrsg span { display:none;}
+
+/* Maquette pas faite selon modèle bootstrap. */
+#connect { background:url(<?= $CFG->wwwroot ?>/theme/cleanrsg/pix/themeByPass/login/login_container_bgd.png);  min-height:20px; color:#fff; position:relative; z-index:1; min-width:295px; max-width:768px;}
+#connect legend, #connect h3  {margin-bottom:0px; border-bottom:0px; color:#fff; font-size:16px; line-height:normal; padding:10px 0 10px 0; font-family: 'Sanchez', serif; letter-spacing:0px;}
+
+@media (max-width: 979px) and (min-width: 768px) {
+    .container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+        width: 768px;
+    }
+}
+
+#colg, #cold, #colm {padding:5px 30px;}
+#colm {padding:5px 30px;}
+
+#colm {border-left:1px solid #314e5c; min-height:240px;}
+#colm p {line-height: 16px; }
+
+form { font-family: 'Open Sans', sans-serif; margin:0px; /* margin=override bootstrap qui causait un bug dans formulaire de login. */}
+form input[type=button], form input[type=submit]  {width:100px; font-family: 'Open Sans', sans-serif; font-size: 12px; height:25px; cursor:pointer;  background:#108b8c; color:#fff; border:none; /* padding:5px 10px;*/ text-align:center; border:1px solid #819d9b; }
+form input[type=button]:hover, form input[type=submit]:hover  {  background:#0c6f70;}
+form input[type=text], form input[type=password] {
+	width:100%; border:1px solid #a3a3a3; padding:5px; color:#676767;
+
+	/* Look carré comme dans la maquette. */
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+form input[type="checkbox"]+label {display: inline; font-family: 'Open Sans', sans-serif; font-size: 11px;}
+#rememberusername {margin:-4px 0px 0px 0px;}
+
+form a { color:#4cc5bb; text-decoration:none;}
+form a:hover { color:#4cc5bb; text-decoration:underline;}
+form a#watch { display:inline-block; margin:0px 0 25px 0; }
+
+
+/* Ajustements Modal pour être plus fidèle à la maquette. */
+/* Travaux pour modal contact mais touche aussi modal de vidéo intro plateforme. */
+
+.modal {
+    /* Fix pour être plus fidèle à la maquette. */
+    /* */
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    border: 7px solid rgb(16, 53, 62);
+}
+
+/* La bordure verte est pas visible avec l'opacité par défaut de bootstrap. */
+.modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0.5;
+    filter: alpha(opacity=80);
+}
+
+.close {
+   /* Bootstrap transparent, maquette = opaque. Rollover non défini. */
+   opacity: 1.0;
+   filter: alpha(opacity=100);
+}
+
+/* Fix outline bleu de taille différente du bouton. */
+.close:focus {
+   outline:none;
+}
+
+
+#visiterPlateformeTitle {
+	/* Fix pour être plus fidèle à la maquette. */
+	margin-top: 0px;
+        font-weight:normal;
+}
+
+/* Eg. À ajuster. La ligne est beaucoup plus visible dans la maquette (antialiasing?). */
+/* Le layer dans photoshop semble avoir un alpha de 20%, je l'ai mis plus haut ici. À revalider! */
+.fieldset_horizontal_separator {margin:auto; width:90%; border-top:1px solid rgba(92,117,132,0.9);}
+
+#notice {
+	/*min-width:295px;
+	max-width:295px;*/
+	
+	font-family: 'Open Sans', sans-serif;
+	
+	color:black;
+	font-size:12px;
+	padding:20px;
+} /* eg. todo: photoshop = opensans light. */
+
+#noticeContainer {
+	background:white;
+	position:relative;
+	margin-left:auto;
+} 
+
+#backgroundPersonnages {
+    pointer-events:none;
+	z-index:99;
+	position:relative;
+	text-align:center;
+    margin-right: auto;
+    margin-left: auto;
+    width:800px;
+}
+#personnages{
+    margin-top:-121px;
+    margin-right:10px;
+    width:800px;
+    height:225px;
+    max-width:800px
+} /* Override de bootstrap, pas de scale auto. */
+
+#footer_default {
+	min-width:295px;
+	background:#2b4652;
+	min-height:150px;
+}
+
+#footer_mobile  {
+	position:relative;
+	background:#2b4652;
+	min-height:70px;
+	
+	/* EG. ?corriger, pour permettre aux logos de rester visible sur une ligne. */
+	/* Si largeur insuffisante, logo devrait tomber sur deux lignes. Problème avec float:right de .footer_logo? */
+	min-width:360px; 
+}
+
+
+
+#footer_default ul li, #footer_mobile ul li{ float:right; margin:15px 25px; list-style: none;}
+
+.footer_logo { float:left; margin:25px 25px;}
+.cad-logo { margin-top: -10px; }
+/*.page_bottom_filler_bug_fix {height:100%; width:100%; background:rgb(16,53,62);}*/
+
+.footer_logo.logo_qc {
+    float: right;
+	margin-top: 12px;
+}
+
+
+/* General template */
+
+body { background:#41a89f; }
+
+/* Modal pour le vidéo sur la page d'authentification */
+#divBlockUI {border:none; box-shadow:none; display:none; position:relative; padding:0px; left:-45px; }
+#video_intro { border:0px solid #fff;}
+#video_container {
+    width:100%;
+	max-width: 530px;
+	margin: 0 auto;
+}
+
+#btnno { background:url(<?= $CFG->wwwroot ?>/theme/cleanrsg/pix/themeByPass/common/fancybox/fancy_close.png) no-repeat; display:block; height:30px; position:absolute; top:-10px; left:640px; width:30px;}
+
+/* Quick fix. Pour centrer le vidéo dans la zone modale. */
+.mejs-video {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Quick fix. (va masquer les marges causé par ajustement adaptif). Background blanc. */
+.mejs-container {
+    background: #ffffff!important;
+}
+
+/* Quick fix. video intro reflow bug. */
+#myModal {
+   min-height:269px;
+}
+
+/* Quick fix. lors du scale de la fenêtre (comportement adaptif), des scrollbars apparaissent à certaines dimensions. */
+/* Le problème se présente aussi en revenant du Fullscreen. */
+/* Solution ne marche pas (environ 500 x 690), on voit très bien le vidéo qui sort du cardre. */
+/* Bug dans media element: Uncaught TypeError: Cannot read property 'tagName' of undefined  peut-être en cause. */
+.modal-body {
+  overflow: visible!important;
+}
+    
+.links { 
+	text-align: center;
+	background-color: #192E33 ;
+	padding:15px;
+}
+
+.links a {
+	color: white;
+}
+
+option {
+	line-height: 5px;
+	}
+	
+	
+	
+	
+	
+	
+	/* AJOUTER RSG KANE  Portrait-Lanscape */
+#overlay {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 9999;
+}
+#mobile,
+#tablet {
+  width: 356px;
+  height: 260px; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -130px 0 0 -178px;
+  display: none;
+  color: #fff;
+  text-align: center;
+  background: url(<?= $CFG->wwwroot ?>/theme/cleanrsg/pix/turn.png) 
+}
+/* FIN AJOUTER RSG KANE  Portrait-Lanscape */	
+
+/*</style>*/

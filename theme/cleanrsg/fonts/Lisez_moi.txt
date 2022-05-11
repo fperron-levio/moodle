@@ -1,0 +1,5 @@
+eg. 26-02-2014
+
+Les fontes (voir les dossier correspondants) ont été copiées au premier niveau du dossier fonts parce que Moodle ne semble pas gérer correctement les sous-dossier lors de l'analyse de l'url (dans le css), alors que ça fonctionne pour les images par exemple).
+
+Aussi, contrairement aux images il faut inclure l'extension exacte dans l'url(.woff).

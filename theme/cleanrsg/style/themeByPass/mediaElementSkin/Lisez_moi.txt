@@ -1,0 +1,2 @@
+Le média est le même que celui utilisé dans les capsules.
+Le css aussi (mediaelementplayer.css) mais il a été modifié pour utiliser path ../themeByPass/mediaElementSkin au lieu de ../images/videoplayer

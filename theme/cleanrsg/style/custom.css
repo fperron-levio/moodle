@@ -1,0 +1,1709 @@
+﻿/* custom.css
+-------------------------*/
+
+a { color:#78369c;}
+a.logo {
+    background: url([[setting:logo]]) no-repeat 0 0;
+    display: block;
+    float: left;
+    height: 75px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.dir-rtl a.logo {
+    background: url([[setting:logo]]) no-repeat 100% 0;
+    display: block;
+    float: right;
+}
+
+#footer { background:#2b4652; min-height:120px; padding-top:20px;}
+#footer ul li { float:right; margin:25px;}
+
+/* General template */
+
+body { background:rgb(76,198,187); color:#10353e!important; font-family:'Open Sans', sans-serif; font-size:13px; padding:0px!important;}
+h1, h2, h3, h4 { line-height: 10px; }
+h1, h2  { font-family: 'Sanchez', serif; }
+h3, h4, h5, h6 { font-family:'Open Sans', sans-serif; }
+
+#wrapper { background:#fff; box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3 ); max-width:960px; min-height:100%; position:relative; }
+#wrapper #page { padding:15px; }
+#wrapper #topmenu { padding:20px 0; }
+
+
+/* cas particulier adaptif, pas possible de faire le changement seulement par css, il y a deux output de tags (topmenu et topmenu-mobile). */
+/* Uilise media query pour afficher la version voulue. */
+@media (max-width: 979px)  {
+    
+    /* catalogue seulement */
+    #header {
+       margin-top:0px!important;
+    }
+    
+    #topmenu {
+       display:none;
+    }
+    
+    .navbar-inner-catalogue {
+        margin-bottom: 0px;
+    }
+    
+    /* Utilise une partie des styles du menu de base (même markup) mais corrige selon les besoins du menu mobile */
+    .navbar .nav>li {
+        float:none;
+    }
+    
+    /* Ligne décoratrive à partir du deuxième item */
+    .navbar .nav>li:nth-child(1n+2) {
+        border-top:1px solid rgb(229,229,229);
+    }
+    
+    .navbar .nav>li>a {
+        padding: 5px 0px 5px 0px;
+    }
+    .navbar .nav {
+        float:left!important;
+        margin:0px 0px 10px 0px!important;
+        width: 100%;
+    }
+    
+    #wrapper #topmenu .logo-rsg a {
+        float:none!important;
+    }
+    
+    .navbar .btn-navbar {
+        margin-bottom:10px;
+    }
+}
+
+@media (min-width: 979px)  {
+    #topmenu-mobile {
+        display:none;
+    }
+}
+
+/* Titres et sous-titres pour les pages */
+#page-mod-rsg-index #page-content h1, h2#pageheading { font-size:18px!important; font-weight:normal; margin-left:25px; text-align:left; text-transform:uppercase; }
+#page-mod-rsg-index #page-content h2.big-title { font-size:20px; margin-left:25px;}
+
+/* Logo */
+#wrapper #topmenu .logo-rsg { width:170px; }  /* width:210px;  kane ancien */
+#wrapper #topmenu .logo-rsg a, #wrapper #topmenu-mobile h1 a {background:url([[pix:theme|themeByPass/common/rsg_logo_complet]]) no-repeat; color:#000000; display:inline-block; font-size:22px; font-family: 'Sanchez', serif; font-weight:normal; min-height:36px; min-width:140px; text-decoration:none;}
+#wrapper #topmenu .logo-rsg a {
+    float:left;
+}
+#wrapper #topmenu-mobile h1 {
+    text-align: center; /* centrer le logo à la demande de MCH, à redisctuter, pas consistant avec page login. */
+}
+#wrapper #topmenu-mobile h1 a {
+    float: none;
+}
+
+#wrapper #topmenu .logo-rsg a:hover { opacity:0.4; background:url([[pix:theme|themeByPass/common/rsg_logo_complet]]) no-repeat; color:#4f5357;  }
+
+/* Personnalisation du menu */
+.navbar .nav {float: right; margin: -10px 40px 0 0;}
+.navbar-inner { background:none; border:none; border-radius:0px; box-shadow:0 11px 10px #e0e0e0;}
+.navbar .navbar-inner{ background:#fff; border:none; border-bottom:1px solid #e0e0e0; border-radius:0px; box-shadow:0px 15px 15px rgba(0, 0, 0, 0.1); margin-bottom:50px; min-height:40px; }
+.navbar-inner-catalogue {
+    /* trop complexe d'annuler tout les styles bootstrap. R�cup�re les styles minimalement requis. */
+    min-height: 40px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#page-site-index .navbar { margin-bottom: 0px;}
+/* */
+
+#wrapper #topmenu ul li { display:inline-block; margin-left: 38px;} 
+/* Patch sur texte!? */
+#wrapper #topmenu ul li a {
+    color:#0c4454;
+    display:block;
+    font-family:'Fjalla One', sans-serif !important;
+    font-size:14px;
+    font-weight:normal;
+    line-height:17px;
+    padding: 10px 0px;
+    text-align:center;
+    text-decoration:none;
+    text-transform:uppercase;
+    
+    /* Pour centrage vertical */
+    display: table-cell;
+    vertical-align: middle;
+    height: 60px;
+} 
+
+#wrapper #topmenu ul li a:hover,  #wrapper #topmenu ul li a.selected { color:#78369c; } 
+
+#wrapper #content h2{ color:#10353e; font-size:24px; margin:0 10px; min-height:50px; padding:40px 0; text-align:center; width:940px;}
+
+#wrapper .horizontal_separator {
+	width:100%;
+	/*border-top:1px solid rgb(229,229,229);*/
+	
+	margin-top:35px;
+	margin-bottom:35px;
+	
+	/* fix pour padding de #wrapper #page. La ligne doit être à 100% (voir maquette). */
+	margin-left:-15px;
+	padding-right:30px;
+}
+
+#wrapper #page-content .sectionTitle {
+    margin-top:0px; /* Pour être fidèle à la maquette.  Margin/padding de page et carousel à revoir. */
+    margin-bottom:0px;
+    
+    font-size: 18px;
+    text-align:center;
+    color:rgb(12,68,84);
+    font-weight:normal;
+    line-height: normal;
+	
+	
+}
+
+#wrapper .ng-scope .sectionTitle {  /* kane ajouter pour supprimer:	Découvrez les plus récentes capsules  */
+	 display:none;
+ }
+
+#wrapper #page-content .sectionSubtitle {
+    margin-top:0px; /* Pour être fidèle à la maquette. */
+    margin-bottom:0px;
+
+    font-size: 13px;
+    text-align:center;
+    color:rgb(12,68,84);
+    font-weight:normal;
+    line-height: normal;
+}
+
+/* ##################################### Page : Accueil ##################################### */
+/* Carrousel  */
+
+a#cleft { background: url([[pix:theme|arr_left]]) center center no-repeat #fff!important; color: #bdbec0; left:-20px; top:50%; }
+a#cright { background: url([[pix:theme|arr_right]]) center center no-repeat #fff!important; color: #bdbec0; left:920px; top:50%;}
+a#cleft span, a#cright span { display:none; }
+
+/* À revalider. Changements faits dans Bootstrap ? */
+#myCarousel .carousel-indicators {
+    width:150px;   /* width:120px;   modifier kane */
+}
+
+.carousel-indicators.middle {
+    bottom: 15px;
+	left: 0;
+    right: 0;
+    text-align: center;
+    top: auto;
+}
+
+.carousel-indicators.middle li {
+    display: inline-block;
+    float: none;
+}
+
+
+/*.carousel-inner .item { position:relative; }*/
+.carousel-inner .item p { font-family: 'Sanchez', serif; line-height:50px; position:absolute; }
+.carousel-inner .item a {
+    /*
+    background:url([[pix:theme|bg_btn_carousel]]) repeat-x top left;
+    border:1px solid #707f7a;
+    color:#d9e2e0; padding:8px 20px 12px 20px;
+    */
+    background:url([[pix:theme|bouton_vert_slide]]) no-repeat top left;
+    position:absolute;
+    left:100px;
+    top:285px;
+    width:162px;
+    height:36px; 
+    
+}
+
+/* Design rsg pas possible d'utiliser bootstrap mais copie style btn*/
+.carousel-inner .item .btn-rsg {  
+    display: inline-block;
+    margin-bottom: 0;
+    color:white;
+    font-size:13px;
+    line-height: 30px; /* hack pour centrer le texte */
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.carousel-inner .item a:hover {
+    opacity:0.5;
+}
+
+.carousel-inner .item .btn {font-size:13px;}
+.carousel-inner .item #slide1 { color:#a4cd40; font-size:56px; line-height:60px; top:75px; left:100px; }
+.carousel-inner .item #slide2 { color:#10b0b6; font-size:40px; text-align:center; top:85px; right:165px; }
+.carousel-inner .item #slide3 { color:#4cc6bb; font-size:36px; text-align:center; top:110px; left:70px; }
+
+
+a#pause {
+    margin-left: 5px;
+}
+
+/* Accueil : bas  */
+
+#page-content h1 {  font-family: 'Sanchez', serif; color:#0c4454; font-size:22px; /*text-align: center;*/ /*margin: 35px 0;*/margin: 15px 15px;line-height: normal; }
+
+/* Capsules pour la page d'accueil */
+#page-content_disabled_style_bad .capsule { /*width:142px;*/width:133px; padding-top: 15px; } /* todo: Style trop général, attrape aussi celui du catalogue!*/
+#page-content .capsule h1.title {  width: 180px; height: 35px; padding:6px 10px 5px 10px;  background:url([[pix:theme|shadow_title_rose]]) no-repeat top center; position: absolute; top:-13px; /*left:-30px*/left:-34px; color:#fff; font-size:13px; font-weight:normal;  font-family: 'Open Sans', sans-serif; text-shadow:0 2px 1px #333333; }
+#page-content .capsule h1.title.mv { background:url([[pix:theme|shadow_title_m]]) no-repeat top center;   }
+#page-content .capsule h1.title.v { background:url([[pix:theme|shadow_title_v]]) no-repeat top center;   }
+#page-content .capsule h2 { /* letter-spacing: -1px; */ font-family:'Sanchez', serif; font-size:14px; color:#0c4454; line-height:16px; font-weight:bold; margin-bottom:25px; margin-top:0px; padding-top:0px; height:30px;}
+#page-content .home_capsule .capsule h2 {padding-top:35px;} /* offset supplémentaire, bandeau catégorie */
+
+/* Niveau container, multiples capsules */
+.home_capsules_container { }
+
+.catalogue_no_capsule_yet {
+    /* Demande sans maquette. Styles approx. */
+    width: 300px;
+    margin-left: auto;
+    margin-right: 610px;
+    margin-top: 60px;
+    text-align: left;
+    font-family: 'Sanchez', serif;
+    font-size: 16px;
+}
+
+/* Niveau capsule, une capsule */
+.home_capsule_category_title { pointer-events:none; height: 50px; margin: 15px 15px; line-height: normal; width: 180px; padding:6px 10px 5px 10px; position: absolute; top:-13px; left:-34px; color:#fff; font-size:13px; font-weight:normal;  font-family: 'Open Sans', sans-serif; text-shadow:0 2px 1px #333333; } 
+/* note eg: manque constance identificateurs intégration originale, v, m, rose.. aussi mauve != violet!? */
+.home_capsule_category_title.green { background:url([[pix:theme|shadow_title_v]]) no-repeat top center; }
+.home_capsule_category_title.violet { background:url([[pix:theme|shadow_title_m]]) no-repeat top center; }
+.home_capsule_category_title.pink { background:url([[pix:theme|shadow_title_rose]]) no-repeat top center; }
+.home_capsule_category_title.orange { background:url([[pix:theme|shadow_title_orange]]) no-repeat top center; } /* todo: compléter */
+
+.home_capsule { list-style:none;}
+
+/* Fix/Hack, redéfinition style Bootstrap: On veut le comportement de display:block mais avec background fit text de inline-block.
+   table permet d'avoir ce comportement.
+   Cas d'utilisation: Les erreurs affichées dans les formulaires doivent rester en haut du champs correspondant pour ne pas
+   briser l'alignement de base des champs demandé dans la maquette.'
+   et avoir la largeur minimale requise. 
+   Attention, cas particulier: Si erreur backend et erreur client, table-cell ne fonctionne pas.
+*/
+
+#wrapper_form_popup { background:#fff;max-width:960px; min-height:100%; position:relative; }
+
+.mform .controls > .error {
+    display: table; /* changed for div and span version. */
+    padding: 4px;
+    margin-bottom: 4px;
+    background-color: #f2dede;
+    border: 1px solid #eed3d7;
+    border-radius: 4px;
+}
+
+form.mform .controls br.error {
+    display: none;
+}
+
+/* AFFICHAGE CONTACT MODAL. ATTENTION: Styles doivent être dupliqués dans thème? */
+/* Pour être fidèle à la maquette: touche formulaire contact + video plateforme. */
+
+#modalContact {
+    position: absolute;
+}
+
+#modalContact .modal-body { 
+    max-height:100%; height:85%;
+}
+
+.modal {
+    /* Fix pour être plus fidèle à la maquette. */
+    /* */
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    border: 7px solid rgb(16, 53, 62);
+}
+
+/* La bordure verte est pas visible avec l'opacité par défaut de bootstrap. */
+.modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0.5;
+    filter: alpha(opacity=80);
+}
+
+.close {
+   /* Bootstrap transparent, maquette = opaque. Rollover non défini. */
+   opacity: 1.0;
+   filter: alpha(opacity=100);
+}
+
+/* Fix outline bleu de taille différente du bouton. */
+.close:hover, .close:focus {
+   outline:none;
+}
+
+/* ###### Contact  ##### */
+/* Traitement particulier pour être fidèle à la maquette. */
+.context_submitbutton_container
+{
+    text-align:center;
+}
+
+/* ###### Recherche  ##### */
+
+.input-append { padding-top:8px; margin-right:35px;} 
+.input-append input, .input-prepend input, .input-append select, .input-prepend select, .input-append .uneditable-input, .input-prepend .uneditable-input, .input-append .dropdown-menu, .input-prepend .dropdown-menu, .input-append .popover, .input-prepend .popover {
+	font-size: 12px
+}
+
+.input-append input, .input-prepend input, .input-append select, .input-prepend select, .input-append .uneditable-input, .input-prepend .uneditable-input, .input-append .dropdown-menu, .input-prepend .dropdown-menu, .input-append .popover, .input-prepend .popover {
+	font-size: 12px
+}
+
+.navbar-search .search-query {
+    border:0px;
+    background-color:#325259;
+    color: white;
+    line-height:normal;
+    height:16px;
+    margin-top: 4px;
+    margin-right:40px;
+}
+/*
+.search-query:focus {
+    color: white;
+}
+*/
+.form-search .input-append .search-query, .form-search .input-prepend .search-query {
+	background: #325259;
+	border: none;
+	color: #fff;
+	height: 26px;
+	padding: 0px 0px 0px 10px;
+}
+
+.form-search .input-append .btn {
+	background: #325259;
+	border: none;
+	height: 26px;
+	box-shadow: none;
+}
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;    
+}
+
+.right-inner-addon #rsg-search-button{
+    position:absolute;
+    right:52px;
+    height:24px;
+    width:24px;
+}
+.right-inner-addon i{
+    margin-left:4px;
+    margin-top:4px;
+}
+
+/* Fix Explorer. Cacher le "x" de reset qui s'affichait derrière l'icône de recherche. */
+#search_capsule::-ms-clear {
+   display: none;
+}
+
+
+
+.searchCapsuleResultInfoContainer {
+    /* N'existe pas dans les maquettes. Utiliser style inspiré par erreur control-group bootstrap. */
+    padding: 10px 10px 10px 10px;
+    text-align:center;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;
+    color: #b94a48;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    margin-bottom:20px;
+    
+    margin-top: -25px; /* hack marges ajout bandeau orthographe. */
+}
+
+
+/* titre avec icônes */
+/*J'enleve background-image:url([[pix:theme|bg_fu]]); */
+#block-region-side-pre .block   h2 { width:328px; height:36px; position:relative; left:-10px;  }
+#block-region-side-pre .block .header .title h2, .block h3.main { color:#fff; font-family: 'Open Sans', sans-serif; font-size:13px; text-transform:capitalize; font-weight:normal;  padding: 8px 15px 5px 45px;}
+#block-region-side-pre .block { border:none; box-shadow:none; position:relative; left:-15px; background:none; border:none;}
+
+/* formulaires */
+.required {
+	color: red; /* Formulaire, astérisque champs requis. Note: Conflit formulaires admin.*/
+}
+
+.form-horizontal .control-label {
+	text-align:left; /* Formulaire, titre des controles. */
+}
+
+.rsg_form_password_section_start  {
+	border-top:1px solid rgb(232,232,233);
+	margin-bottom:25px;
+}
+
+.rsg_form_password_section_end  {
+	border-top:1px solid rgb(232,232,233);
+	/* Déjà un margin dans le control-group. */
+	margin-bottom:20px;
+}
+
+.rsg_form_title  {
+	font-size: 18px;
+	margin-bottom:30px;
+	font-family: 'Sanchez';
+}
+
+.rsg_form_text  {
+	font-size: 13px;
+	font-family: 'Open Sans';
+}
+
+/* #3275 */
+.form-horizontal #submitbutton , .form-horizontal #submitbutton hover, .form-horizontal #submitbutton active {
+	cursor: pointer;
+    width: 135px;
+    height: 35px;
+    background: url([[pix:theme|btn_enregistrer]]) no-repeat top center;
+    padding: 0;
+    margin: 0;
+    margin-top: 20px;
+    border: 0;
+    text-indent: -9999em;
+}
+/* #3243 */
+.form-horizontal #submitbutton2 , .form-horizontal #submitbutton2 hover, .form-horizontal #submitbutton2 active {
+    cursor: pointer;
+    width: 135px;
+    height: 35px;
+    background: url([[pix:theme|btn_soumettre]]) no-repeat top center;
+    padding: 0;
+    margin: 0;
+    margin-top: 20px;
+    border: 0;
+    text-indent: -9999em;
+}
+/* #3275 */
+.afficher_certificat, .afficher_certificat hover, .afficher_certificat active {
+    width: 197px;
+    height: 36px;
+    background: url([[pix:theme|btn_afficher_certificat]]) no-repeat top center;
+    padding: 0;
+    margin: 0;
+    margin-right: 15px;
+    border: 0;
+    text-indent: -9999em;
+    display: inline-block;
+    float: right;
+}
+/* #3275 */
+.afficher_boni, .afficher_boni hover, .afficher_boni active {
+    width: 197px;
+    height: 35px;
+    background: url([[pix:theme|btn_afficher_boni]]) no-repeat top center;
+    padding: 0;
+    margin: 0;
+    margin-right: 15px;
+    border: 0;
+    text-indent: -9999em;
+    display: inline-block;
+    float: right;
+}
+
+
+.afficher_boni_bis, .afficher_boni_bis hover, .afficher_boni_bis active{
+	margin-top: 34px!important;
+}
+
+select, textarea {
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+	
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+button, input.form-submit, input[type="button"], input[type="submit"], input[type="reset"] {
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+/* Mon parcours */
+.journey_capsules_container { overflow:visible;}
+
+.journey_category_title { pointer-events:none; color:#fff; font-family: 'Maven Pro',sans-serif; font-size:15px; padding:10px 10px 10px 40px; font-weight:normal; margin-left:-25px; z-index:9; width:350px; height:30px; text-shadow:0 1px 1px #333333; text-transform:uppercase; font-weight:bold; overflow:visible;}
+.journey_category_title.green { background:url([[pix:theme|bg_green]]) no-repeat left top; }
+.journey_category_title.violet { background:url([[pix:theme|bg_purple]])no-repeat left top; }
+.journey_category_title.pink { background:url([[pix:theme|bg_fu]]) no-repeat left top; }
+.journey_category_title.orange { background:url([[pix:theme|bg_orange]]) no-repeat left top; } /* todo: compléter */
+
+/* Ligne de séparation ne doit pas apparaitre avant premier et après dernier item */
+.journey_capsule:not(:last-child) {border-bottom:1px solid rgb(230,230,231);}
+.journey_capsule { list-style:none; margin-bottom:20px;}
+
+.journey_capsule_container {margin:0px; /* pour enlever margin de ul */ }
+.journey_capsule_title { font-weight:600; font-size:16px; font-family: 'Sanchez', serif; color:rgb(26, 59, 67); }
+.journey_capsule_status {font-family: 'Open Sans', sans-serif; font-size:13px;margin-top:3px;margin-bottom:20px;margin-left:-9px;}
+
+/* # 3275 */
+.journey_outil {
+    /* Style copié de la version obsolete (.mon-outil .boxe a) */
+    color: #000;
+    text-decoration: none;
+    /* background: url([[pix:theme|ico_outil_boni]]) no-repeat left center; */
+    padding: 10px 10px 10px 10px;
+    margin: 5px 0;
+    display: block;
+}
+
+.journey_outil:hover {
+   /* Pas d'indications sur le comportement attendu. */
+   /* opacity:0.4; */
+}
+
+.journey_outil:hover, .journey_outil:visited, .journey_outil:link, .journey_outil:active
+{
+   /* Pas d'indications sur le comportement attendu. */
+   text-decoration: none;
+}
+
+
+/* # 3275 */
+.journey_afficher_certificat, .journey_certificat_none {
+    color: #000;
+    text-decoration: none;
+    /* background: url([[pix:theme|ico_certificat]]) no-repeat left center; */
+    padding: 10px 10px 10px 10px;
+    margin: 5px 0;
+    display: block;
+}
+.journey_certificat_none, .journey_certificat_none:hover, .journey_certificat_none:active, .journey_certificat_none:visited, .journey_certificat_none:link {
+    /* background: url([[pix:theme|ico_certificat]]) no-repeat left center; */
+    color: #000;
+    text-decoration: none;
+}
+.journey_afficher_certificat:hover, .journey_afficher_certificat:visited, .journey_afficher_certificat:link, .journey_afficher_certificat:active {
+   text-decoration: none;
+}
+
+.journey_outil_msg {
+    font-family: 'Sanchez',serif;
+    font-size: 16px;
+    font-weight:bold;
+    text-align: center;
+    margin-bottom:20px; /* approx. */
+}
+
+/* angular animation begin */
+.animation_capsule.ng-enter{
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+.animation_capsule.ng-leave{
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+.animation_capsule.ng-enter {
+  opacity: 0;
+}
+
+.animation_capsule.ng-leave {
+  opacity: 1;
+}
+
+.animation_capsule.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+.animation_capsule.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+.animation_category_title.ng-hide-add, .my-element.ng-hide-remove {
+  /* this must be set as block so the animation is visible */
+  display:block!important;
+}
+
+.animation_category_title.ng-hide {
+  opacity:0;
+}
+
+.animation_category_title {
+  opacity:1;
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+
+/* Outils */
+.mon-outil { overflow:hidden; /*padding:10px 0px 40px 0; position: relative;*/}
+.static { position:static; }
+
+/* dupliqués de anciens styles .mon-outil h3.titre-capsule */
+.catalog_category_title { pointer-events:none; margin-bottom: -20px; position:relative; text-align: center; width: 900px; height: 40px; color:#fff; font-size: 15px; font-family: 'Maven Pro', sans-serif; font-weight: 500; top: -10px; z-index:1500; text-shadow:0px 1px 1px #333; padding-top:12px; margin-left:auto;margin-right:auto; text-transform:uppercase; font-weight:bold;}
+.catalog_category_title.green { background:url([[pix:theme|bg_title_v]]) no-repeat left center; z-index:1;} 
+.catalog_category_title.violet { background:url([[pix:theme|bg_title_m]]) no-repeat left center; z-index:1;}
+.catalog_category_title.pink { background:url([[pix:theme|bg_title_r]]) no-repeat left center; z-index:1;}
+.catalog_category_title.orange { background:url([[pix:theme|bg_title_orange]]) no-repeat left center; z-index:1;} /* todo: compléter */
+ 
+.catalog_capsules_container{ padding-top: 0px; overflow:visible; margin:0px; /* pour enlever margin de ul */}
+.catalog_capsule { list-style:none;}
+.catalog_capsule .capsule { padding:24px !important; padding-bottom:10px !important;} /* capsule dans le catalogue est plus large. */
+
+.capsule_tooltip_title {font-weight:bold;}
+
+#modalnoacces {z-index:3000; /* Fix. conflit ordre z avec banières de catégories. */ } 
+
+/* Titres  centrés*/
+.mon-outil h3.titre-capsule { position:relative; text-align: center; width: 302px; height: 40px; color:#fff; font-size: 17px; font-family:'Open Sans', sans-serif; /*margin-left: 300px; position:absolute;*/ top: -10px; z-index:1500; text-shadow:0px 2px 1px #333; padding-top:12px; margin-left:auto;margin-right:auto; }
+.mon-outil h3.titre-capsule.titre-capsule-vert { background:url([[pix:theme|bg_title_v]]) no-repeat left center; }
+.mon-outil h3.titre-capsule.titre-capsule-rose {  background:url([[pix:theme|bg_title_r]]) no-repeat left center;}
+.mon-outil h3.titre-capsule.titre-capsule-violet {  background:url([[pix:theme|bg_title_m]]) no-repeat left center; }
+
+
+.mon-outil h3.grand-titre { color:#fff; font-family: 'Open Sans', sans-serif; font-size:14px; padding:10px 10px 10px 40px; font-weight:normal; position:absolute; left:-10px; z-index:9; width:350px; height:30px; text-shadow:0 2px 1px #333333; }
+.mon-outil h3.grand-titre.vert { background:url([[pix:theme|bg_green]]) no-repeat left top; }
+.mon-outil h3.purp { background:url([[pix:theme|bg_purple]])no-repeat left top; }
+.mon-outil h3.fus { background:url([[pix:theme|bg_fu]]) no-repeat left top; }
+
+/* angular animation end */
+.mon-outil h4 { font-size:16px; color:#0c4454; font-weight:100; font-family: 'Sanchez', serif; margin-top:30px; }
+.mon-outil h4:first-child { margin-top:10px;}
+.mon-outil .element-outil { padding-top: 0px;/*padding-top: 80px;*/position: relative; /*top: -60px;*/}
+.mon-outil .boxe { padding:20px 30px; height:60px; /*overflow:hidden;*/ }
+.mon-outil .boxe a { color:#000; text-decoration:none; background:url([[pix:theme|ico_outils]]) no-repeat left center; padding:10px 10px 10px 50px; margin:5px 0; display:block; }
+
+.mon-outil .element-capsule { padding-top: 0px;/*padding-top: 80px;*/position: relative;top: -60px;}
+
+.outils-footer div {
+    background:url([[pix:theme|bg_footeroutils]]) repeat-x bottom center;
+    margin-bottom:15px;
+    padding:15px 0;
+    padding-right: 30px; /* fix largeur page */
+    margin-left: -15px; /* fix largeur page */
+    width: 100%; /* fix largeur page */
+   
+    position:relative;
+}
+/* ancien style, structure de tag problématique */
+.outils-footer div a {  text-align:center;  position:absolute; top:0px; right:50%; margin-right:-30px;  font-size:13px; display:inline-block; width:100px; height:50px; color:#10353e; background:url([[pix:theme|arr_down]]) no-repeat bottom center; text-decoration:none;}
+
+.category_footer {
+    background:url([[pix:theme|bg_footeroutils]]) repeat-x bottom center;
+    margin-bottom:35px;
+    padding:15px 0;
+    padding-right: 30px; /* fix largeur page */
+    margin-left: -15px; /* fix largeur page */
+    width: 100%; /* fix largeur page */
+   
+    position:relative;
+}
+.category_toggle {text-align:center;  position:absolute; top:0px; right:48%; margin-right:-30px;  font-size:13px; display:inline-block; width:100px; height:50px; color:#10353e; text-decoration:none;}
+.category_toggle.show_more {background-color:red; background:url([[pix:theme|arr_down]]) no-repeat bottom center;cursor:pointer;}
+.category_toggle.show_less {background-color:blue; background:url([[pix:theme|arr_top]]) no-repeat bottom center;cursor:pointer;}
+
+/* Header en bas du menu avec les images des monstres */
+#header-monstres {
+  background:url([[pix:theme|monstres]]) no-repeat left center #10353e;
+  height:42px;
+  margin-top: -20px;
+  margin-left: 0;
+}
+
+/* Recherche à l'intérieur du header avec le monstres */
+#header-monstres form input[type=text] { background:#325259; border:none; color:#fff; height:26px; padding:0 0 0 10px;}
+#header-monstres form input[type=text]:focus { box-shadow:none; }
+#header-monstres form button { background:#325259; border:none; border-radius:0 14px 14px 0; box-shadow:none; height:26px; }
+#header-monstres form button i.icon-search { background:url([[pix:theme|ico_search]]) no-repeat; }
+
+/* #### Notes ### */
+#notes { 
+  margin: -36px -15px 20px;
+  position: relative;
+}
+#notes #header-notes { background:#10353e; padding: 20px 0px 0px; height: 100%;}
+#notes #header-notes h2 {font-weight:400; color: #fff; text-align: center;  font-size:18px; line-height: 22px; font-family: 'Sanchez', serif; margin: 0px; }
+#notes #header-notes h2 span { display:block; font-size:12px; font-family: 'Open Sans', sans-serif; }
+
+#notes #footer-notes { background: #ededed; border-bottom: 1px solid #e0e0e0; text-align: center; padding-top:10px; font-size:13px;}
+
+/* #tabnotecontainer Default */
+#tabnotecontainer {
+    text-align:center;
+    position:absolute;
+    right:6px;
+    top:17px;
+}
+/* #tabnotecontainer Adaptif: aligné droite comme dans la maquette. Centré si wrap. */
+@media (max-width: 768px)  {
+    #tabnotecontainer {
+        position:relative;
+    }
+}
+
+@media (min-width: 769px)  {
+    .uecinfogrp {
+        margin-bottom:30px;
+    }
+}
+#tabnotecontainer .tabnote-title {
+    letter-spacing:-1px;
+}
+
+#notes #tabnote {display:inline-block; margin-left:auto; margin-right:auto; margin-bottom:25px; width:122px; background:#f2f2f2; border:5px solid #d5dcde; box-shadow:1px 1px 5px #bfbfbf; }
+#notes #tabnote table td:first {font-size:13px; font-weight:bold;} /* titre du tableau */
+#notes #tabnote table td {font-size:12px; text-align: center; color: #0c4454; padding: 3px 0;}
+#notes #tabnote table tr {border: 1px solid #cccdce; }
+#notes #tabnote table tr:first-child { font-size:15px; background:#fff; }
+#notes #tabnote table tr#subtitle_equival { background:#fff; }
+#notes #tabnote table tr#subtitle_equival td.empty { border-right:1px solid #d5dcde; }
+#notes #tabnote table td.empty { padding:0; width:0; }
+
+/* Titre centré dans la page */margin-bottom: 20px;
+#wrapper #content h2.big-title{  background:url([[pix:theme|bg_content]]) repeat-x top center; min-height:50px; font-size:18px; text-align:center; color:#10353e; font-weight:normal; padding:40px 0 0 0; font-family: 'Sanchez', serif;}
+
+/* ### Capsules ###*/
+
+.box-outils .capsule { padding:24px !important; } /* todo: delete eg! */
+.capsule { border:5px solid #d9e0e2; padding:15px; width:133px;/* width pour fit 4 capsule en pleine largeur */ margin:20px; box-shadow: 1px 1px 10px #666;  text-align:center; float:left; position:relative; padding-bottom: 5px;}
+.capsule h3 {  font-family: 'Sanchez', serif; font-size:14px; color:#0c4454; line-height:16px; font-weight:normal; margin-bottom:30px; }
+.capsule a { display:block; height:30px; margin:0px 0; color:#000000; text-decoration:none; }
+.capsule a:hover { color:#900;}
+.capsule p.uec { background:url([[pix:theme|ico_uec]]) no-repeat center top; padding-top:50px; margin-top:40px; }
+.capsule p.time, p.time { background:url([[pix:theme|ico_time]]) no-repeat center top; padding-top:40px; }
+.capsule a.classification { background:url([[pix:theme|ico_classification]]) no-repeat center top; padding-top:60px; margin-bottom:20px; }
+.capsule .tooltipCapsuleName , .capsule .tooltipCapsuleTime { cursor: pointer; }
+
+.capsule a.btn  { font-family: 'Open Sans', sans-serif; font-weight:normal; font-size:13px; height:26px; padding-top:0px; padding-bottom:0px; line-height: 25px; margin-bottom:14px;} /* override bootstrap. */
+
+.force-catalog-one-column {
+       margin-right:auto;
+       margin-left:auto;
+       float:none;
+}
+
+@media (max-width: 548px)  {
+    .capsule, .force-catalog-one-column {
+       margin-right:auto;
+       margin-left:auto;
+       float:none;
+    }
+    
+    #wrapper #page {   
+        padding-right: 0px!important;
+        padding-left: 0px!important;
+    }
+}
+
+/* ### Mon Profil ### */
+#page-user-profile h2 {
+    font-family: 'Open Sans', sans-serif; font-size:13px;
+}
+#page-user-profile .username {
+    margin: 10px 0px;
+}
+#page-user-profile .username span {
+    font-weight: bold;
+}
+
+/* Contact */
+#content-contact { padding-top:10px; }
+#content-contact h1.gtitre { font-family: 'Sanchez', serif; font-size:18px; text-transform:uppercase; letter-spacing:1px; font-weight:400; color:#10353e; margin-bottom:50px;  }
+#content-contact h2 { font-size:24px; font-family: 'Sanchez', serif; color:#10353e;  font-weight:400; margin-bottom:15px;}
+#content-contact .sous-contenu { padding-bottom:10px; border-bottom:1px solid #e6e6e7; margin-bottom:25px; }
+#content-contact .sous-contenu p { margin-bottom:20px; font-family: 'Open Sans', sans-serif; font-size:13px;  }
+
+/* ACCUEIL - NOUVELLES  */
+#content-page h1.gtitre { font-family: 'Sanchez', serif; font-size:18px; text-transform:uppercase; letter-spacing:1px; font-weight:400; color:#10353e; padding-bottom:30px; border-bottom:1px solid #e6e6e7; margin-bottom:30px;  }
+
+#content-page .actualite { margin:20px 0; border-top:1px solid #e6e6e7; padding:10px 0 30px 0; }
+#content-page .actualite h2 { font-size:24px; font-family: 'Sanchez', serif; color:#000000;  font-weight:400; margin-bottom:35px;}
+#content-page .actualite h2 span { font-size:24px; font-family:'Open Sans', sans-serif; font-size:13px; color:#000000;  font-weight:400; display:block; margin-top:15px;}
+#content-page p {font-family: 'Open Sans', sans-serif; font-size:13px; }
+
+.margetop { margin-top:40px;}
+.margebas { margin-bottom:40px;}
+
+#video_visite_container {
+    margin-top: 25px;
+    text-align: center ;
+}
+
+/* ##################### FAQ ############## */
+.generalbox {margin-left:0px;}
+.generalbox h5 {font-size:16px;}
+.generalbox p {font-size:13px;}  
+
+.q { padding: 30px; border-bottom: 1px solid #efefef;  font-family: 'Sanchez', serif;}
+.q h3 { color:#10353e; font-weight: normal; font-size:20px;}
+
+/* ##################### Contact ############## */
+.contact { padding: 30px; border-bottom: 1px solid #efefef;  font-family: 'Sanchez', serif;}
+.contact h3 { color:#10353e; font-weight: normal; font-size:20px;}
+
+
+/*  MODAL   */
+.blockMsg { top:20%!important;}
+.xmodal { border:5px solid #10353e; text-align:left; padding:50px 40px; display:none; position:relative; -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.65); -moz-box-shadow:    0px 0px 10px rgba(0, 0, 0, 0.65); box-shadow:0px 0px 10px rgba(0, 0, 0, 0.65);}
+.xmodal h3 { font-family:'Sanchez', serif; font-size:18px; color:#10353e; font-weight:400; margin-bottom:20px;  }
+.xmodal p { font-family:'Open Sans', sans-serif; font-size:13px; }
+.xmodal a#close { display:block; width:14px; height:14px; border:1px solid #d0d0d0; background:url([[pix:theme|x]]) no-repeat center center; position:absolute; top:10px; right:10px; }
+
+.xmodal textarea { width:100%; height:270px; border:1px solid #d4d4d4; resize:none }
+.xmodal input[type=submit] { background:url([[pix:theme|bg_input_modal]]) repeat-x top; border:1px solid #74837e; padding:4px 15px; font-weight:bold; font-family:'Open Sans', sans-serif; font-size:13px; }
+.xmodal p.send { text-align:center; padding-top:20px; }
+
+
+/* ###### Formulaire deux colonne (profil) #####*/
+#Monformulaire { margin-top:30px; }
+form.Form2colonnes label { float:left; display:block; width:320px;  font-family:'Open Sans', sans-serif; font-size:13px; }
+form.Form2colonnes fieldset { margin:0 0 20px 31px;}
+form.Form2colonnes legend { border-top: 1px solid #E5E5E5; border-bottom:none; margin-left:-30px; padding-top:10px; }
+
+
+/*   Site Temporairement inactif */
+#content-page-inactif { padding:20px 40px;}
+h2.grand-titre {  font-size:36px; font-weight:normal; font-family: 'Sanchez', serif; color:#10353e;   }
+
+
+.clear { clear:both;}
+
+.navbar .nav>.active>a
+{
+  color: #551A8B !important;
+  background-color:transparent;
+  box-shadow:none;
+}
+/* #3710
+#header {
+    background: url([[pix:theme|monstres]]) no-repeat left center #10353e;
+    height: 42px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4 );
+}
+*/
+
+/*  Mon parcours */
+
+.uecinfo_total_msg {
+    font-family:'Open Sans', sans-serif;
+    font-size:12px;
+    color: #fff;
+}
+
+#uecinfototalcurrentyear {
+    /* no style */
+}
+
+#uecinfototalsubscription {
+    /* no style */
+}
+
+.uecinfogrp {
+    height:100%;
+    width:100%;
+    text-align:center;
+}
+
+.uecinfo_horizontal_separator {
+    margin:auto; width:47%;
+    border-top:1px solid rgba(92,117,132,0.9);
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+.bandeaulogo_background  {
+    -webkit-box-shadow: inset 0 0 20px 7px rgba(0,0,0,.03);
+    -moz-box-shadow: inset 0 0 20px 7px  rgba(0,0,0,.03);
+    box-shadow: inset 0 0 20px 7px rgba(0,0,0,.03);
+    width: 100%;
+    height: 100%;
+    background-color: rgb(245,245,245);
+}
+
+.bandeaulogo_grp {
+    margin-left: auto;
+    margin-right: auto;
+   /* margin-bottom:38px; */
+}
+
+#bandeaulogo_image {
+    /* Fix temporaire pour que le logo n'apparaisse pas dans la zone de dégradé. */
+    /* Il faudrait l'image du logo transparent. */
+    margin-top:6px;
+    /*margin-bottom:10px; */
+
+    text-align:center;
+}
+
+#bandeaulogo_notice {
+    margin-top:19px;
+    margin-bottom:19px;
+	margin-left: 0;
+}
+
+#bandeaulogo_notice2 {
+    margin-top:23px;
+    margin-bottom:23px;
+    margin-left:10px;
+    margin-right:10px;
+}
+
+@media (max-width: 767px)  {
+	
+
+	
+    #bandeaulogo_notice {
+        text-align:center;
+    }
+    
+    #bandeaulogo_notice_part_separator {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    #bandeaulogo_notice_part_b {
+        width:245px; /* ramener ligne largeur approx bloc part a */
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (min-width: 768px)  {
+    #bandeaulogo_logo {
+        text-align:right;
+    }
+}
+
+#bandeaulogo_notice_part_a {
+    /* Utilise style sur id pour avoir priorité sur styles définis par bootstrap. */
+    font-family:'Sanchez', sans-serif;
+    font-size:18px;   
+    line-height:120%;
+    margin-bottom: 8px;
+}
+
+#bandeaulogo_notice_part_separator {
+    width:245px;
+    border-bottom:1px solid rgb(16,53,62);
+    
+}
+
+#bandeaulogo_notice_part_b {
+    /* Utilise style sur id pour avoir priorité sur styles définis par bootstrap. */
+    margin-top: 2px;
+    font-family:'Open Sans', sans-serif;
+    font-size:12px;
+    font-style: italic;
+}
+
+/* Tab title dans MonProfil, override bootstrap. */
+.nav-tabs>li>a {
+    font-weight:600;
+}
+
+.tab-content legend{
+    font-family: 'Sanchez', serif;
+}
+
+.tab-pane .btn {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    cursor: pointer;
+    background: #108b8c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border: 1px solid #819d9b;
+    margin-top: 20px;
+    font-size: 12px;
+    text-shadow: none;
+    
+    /* annuler style existant, pas accès au tags.*/
+    border-radius:0px;
+}
+
+
+#page-mod-rsg-monparcours .green-button-rsg {
+    position: absolute;
+    right: 30px;
+    bottom: -60px;
+}
+
+/* # 3275 */
+.green-button-rsg.btn, .green-button-rsg.btn hover, .green-button-rsg .btn active  {
+    width: 114px;
+    height: 35px;
+    background: url([[pix:theme|btn_imprimer]]) no-repeat top center;
+    padding: 0;
+    margin-top: -17px;    /*  20px; ancien  kane*/
+    border: 0;
+    text-indent: -9999em;
+}
+.rsg_quiz_quit_button.btn-info, .endtestlink.btn-info {
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #0b997f;
+  background-image: none;
+}
+a.rsg_quiz_quit_button + a.endtestlink {
+  margin-left: 5px;
+}
+
+
+.dialog-green-button-rsg {             
+    border: solid 1px #707f7a;
+    background-image: -webkit-linear-gradient(bottom, #032c26, #318e7e 82%);
+    background-image: -moz-linear-gradient(bottom, #032c26, #318e7e 82%);
+    background-image: -o-linear-gradient(bottom, #032c26, #318e7e 82%);
+    background-image: -ms-linear-gradient(bottom, #032c26, #318e7e 82%);
+    background-image: linear-gradient(to top, #032c26, #318e7e 82%);   
+        
+    font-family: 'Open Sans', sans-serif;
+    font-weight:600;
+    cursor: pointer;
+
+    color: #fff;
+    padding: 5px 14px;
+
+    margin-top:20px;
+    font-size: 13px;
+    
+    display: inline-block; /* fix rapide, design statique sans considération du mode adaptif */
+    margin-top: 0px!important; /* fix rapide */
+}
+
+.dialog-green-button-rsg:hover {
+    background: #0c6f70;
+    color:white;
+    text-decoration:none;
+}
+
+.dialog-green-button-rsg:focus {
+    text-decoration:none;
+    color:white;
+}
+
+.dialog-title-text-rsg {
+    font-family: 'Sanchez', sans-serif;
+    font-size: 18px;
+    padding-bottom:15px;
+    color: rgb(16, 53, 62);
+}
+
+.dialog-body-text-rsg {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    padding-top:30px;
+    padding-bottom:30px;
+    color: black;
+}
+
+/* Mobile validation */
+#rsg-orientation-overlay {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 9999;
+}
+#rsg-orientation-overlay #mobile,
+#rsg-orientation-overlay #tablet {
+  width: 356px;
+  height: 212px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -106px 0 0 -178px;
+  display: none;
+  color: #fff;
+  text-align: center;
+  background: url([[pix:theme|turn-original]]);
+}
+
+/* Ajustement layout mobile */
+@media (max-width: 450px)  {
+     .dialog-green-button-rsg {
+        display:block;
+        margin-bottom:10px!important;
+    }
+}
+
+@media (max-height: 500px)  { /* 500 px approx. */
+    .dialog-rsg {
+        /* Cas limite bootstrap, dialogue trop grand = pas de scroll */
+        position:absolute;
+    }
+}
+
+.dialog-error-404 .modal-body {
+    padding-top:45px;
+    padding-bottom:45px;
+    padding-left:0px;
+    padding-right:0px;
+}
+
+.dialog-error-404 .modal-title {
+    font-family: 'Sanchez', sans-serif;
+    font-size: 18px;
+    color: rgb(16, 53, 62);
+    padding-bottom:15px;
+    text-transform: uppercase;
+}
+
+/* Maquettes en pixel + Bootstrap = ? */
+.dialog-error-404 .pixeldesign_fix {
+    width:230px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Ajustements player scorm */
+#page-mod-scorm-player {
+    /* background:red; */ /* pour test bug */
+    background:white;
+    overflow: hidden;
+}
+
+#page-mod-scorm-player #wrapper{
+    max-width:100%;
+    width:100%;
+}
+
+#page-mod-scorm-player #wrapper #page{
+    padding:0;
+}
+
+#page-mod-scorm-player h2 {
+    display:none;
+} 
+
+#page-mod-scorm-player #maincontent {
+    display:none;
+} 
+
+#page-mod-scorm-player #page-header {
+    display:none; /* pour tester update du css */
+} 
+
+#page-mod-scorm-player #page-footer {
+    display:none;
+} 
+
+#page-mod-scorm-player #scorm_layout {
+   /* IMPORTANT: Voir module.js de scorm module.
+      Changement du Height avec YUI selon fenêtre courante.
+   */
+} 
+
+#page-mod-scorm-player #scormpage #scorm_toc {
+    display:none;
+}
+
+#page-mod-scorm-player #scorm_toc_toggle {
+    display:none;    
+}
+
+#page-mod-scorm-player #scormpage #scorm_object {
+    width: 100%;
+    height: 100%;
+}
+
+div.que div.outcome {
+    background-color: #dff0d8;
+    color: #468847;
+}
+
+legend{
+    /*font-size:16px !important;*/
+    font-size: 14px !important;
+    font-weight: bold;
+    color: #10353e!important;
+}
+
+.navbar .nav>.active>a, .navbar .nav>.active>a:hover, .navbar .nav>.active>a:focus{
+    background: none;
+    text-shadow: none;
+    -webkit-box-shadow:none;
+    box-shadow: none;
+}
+
+.rsg_capsule_name_quiz, .rsg_level3_quiz, .rsg_capsule_evaluation_title_quiz {
+    font-size: 18px;
+    margin-bottom: 30px;
+    font-family: 'Sanchez';
+    font-weight: bold;
+}
+
+.rsg_capsule_evaluation_title_quiz {
+    font-family: 'Sanchez',serif;
+    font-size: 16px;
+   /* color: #0c4454;  */   /* coleur de autoevaluation*/
+    color: #10353e;
+    line-height: 16px;
+    font-weight: bold;
+    margin-bottom:15px;
+}
+
+.rsg_capsule_quiz_intro {
+}
+
+/* Style équivalent: .path-mod-quiz .qnbutton */
+/*.rsg_quiz_navig_button {*/
+.path-mod-quiz .qnbutton {
+    width:auto;
+    min-width:0.5em;
+    padding-left:0.5em;
+    padding-right:0.5em;
+    font-size: 16px;
+}
+
+.rsg_quiz_navig_button_extralabel {
+    
+}
+
+#rsg_quiz_bonus_tool_goto_button {
+   margin:0 10px;
+  /*  float:left;  */   /* enlever kane */
+}
+
+#page-mod-quiz-view .generaltable.quizattemptsummary , #page-mod-quiz-attempt .generaltable.quizattemptsummary{
+    /*width:90%;*/
+    width:100%;
+}
+
+#page-mod-quiz-view input  , #page-mod-quiz-attempt input {
+    margin:0px;
+    margin-bottom:10px;
+}
+
+#quiz_rsg_close_modal {
+    margin-left:5px; /* Espace avec bouton "suivant" */
+    border-radius: 0px; /* Le minimum requis pour avoir le même look de bouton que input (bouton suivant)*/
+    float: right;
+    margin-bottom:10px;
+}
+
+/* Ajustement adaptif, taille fenêtre minimale */
+#page-mod-quiz-view #page-footer, #page-mod-quiz-attempt #page-footer {
+    clear:both;
+}
+
+.rsg_quiz_submitbtns {
+    clear:both!important; /* fix rapide problème adaptif. Je veux pas mettre trop de temps puisqu'il y aura sûrement des demandes de changemetns pour ce widget. */
+}
+
+.quizsummaryofattempt .notyetanswered {
+    /*color: #c09853;*/ /* beige orange bootsrap */
+    color: #b94a48; /* rouge rose bootstrap */
+}
+
+.quizsummaryofattempt .answersaved {
+    color: #468847;
+}
+
+/* Pour ajouter des marges au quiz. */
+.path-mod-quiz   #region-main{
+    margin-right: 24px;
+    margin-left: 24px;
+}
+
+.quiz-time {
+    background:url([[pix:theme|ico_time]]) no-repeat center top; 
+    padding-top:40px;
+    height: 40px;
+    width: 180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#page-mod-quiz-review .print {
+    float:right;
+}
+
+#intro.generalbox{
+    padding: 0px;
+}
+
+.boxrsginfo {
+    background-color: azure;
+    border: 3px solid rgb(16,53,62);
+    padding: 12px 14px 12px 14px;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+.boxrsginfo p{
+   /* color:#333; */
+    color: #000;
+    font-size: 10pt
+}
+.boxrsginfo .sous-section {
+    margin:15px 0 0;
+}
+.boxrsginfo .sous-section p{
+    line-height:1em;
+    margin:0 0 5px;
+}
+.boxrsginfo .sous-section .sous-section-droite{
+    float:right;
+    width:33%;
+}
+.boxrsginfo .sous-section .sous-section-gauche{
+    width:67%;
+}
+#submitbuttonsearch {
+    font-family: 'Open Sans',sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    cursor: pointer;
+    background: #108b8c;
+    color: #fff;
+    border: none;
+    border: 1px solid #819d9b;
+    font-size: 12px;
+    text-shadow: none;
+    margin:0px;
+}
+
+p {
+    color:#443e3e;
+}
+
+#page-mod-rsg-faq #region-main,
+#page-mod-rsg-contact #region-main,
+#page-mod-rsg-monprofil #region-main,
+#page-login-signup #region-main, 
+#page-login-forgot_password #region-main {
+    padding:15px; 
+    padding-top:0px;
+}
+
+#page-mod-rsg-purchasingpolicy p,
+#page-mod-rsg-privacypolicy p,
+#page-mod-rsg-requirements p {
+    padding:15px; 
+}
+
+
+#page-mod-rsg-requirements ul {
+    padding-left: 15px;
+    color:#443e3e;
+}
+
+#page-mod-rsg-requirements .title{
+    padding: 15px;
+    color: #10353e!important;
+    font-weight: bold;
+
+}
+
+ table#prerequis {
+    width:0%;
+    margin: 15px; 
+}
+
+table#prerequis  th , table#prerequis td {
+    margin: 15px;
+    padding:15px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+a {
+    color: #0c4454;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #551A8B !important;
+}
+
+ul {
+    margin: 0 0 10px 15px;
+}
+
+label {
+    font-size:13px;
+}
+
+.form-horizontal .controls{
+    color: gray;
+}
+
+.nav-tabs, .nav-pills, .nav{
+    margin-bottom: 0px;
+}
+
+#page-mod-rsg-monprofil .span12,#page-mod-rsg-monprofil  .dataTables_wrapper,#page-mod-rsg-monprofil  #autres, #page-mod-rsg-monprofil  #mot_de_passe
+{
+    padding: 15px;
+    border: 1px solid lightgray;
+    border-top: 0px;
+    margin-bottom: 30px; 
+}
+
+#passchange
+{
+    /*padding: 15px; */   /* enlever kane*/
+    padding-top:0px;
+}
+
+.alert-info
+{
+    color: black;
+    background-color: rgb(238,238,238);
+    border-color: white;
+    margin: 15px;
+    -webkit-border-radius: 0px; 
+    -moz-border-radius: 0px;
+    border-radius: 0px; 
+}
+
+
+/* kane Ajout */
+.alert-info.soutien_technique
+{
+    margin: 0; 
+	/* padding-bottom: 0;  */
+}
+
+/* kane Ajout */
+.soutien_technique.soutien_technique2
+{
+   padding-top:17px;
+   padding-bottom: 17px;
+}
+
+
+#region-main,#page-login-signup .alert-info
+{
+    margin-left: 0px;
+    margin-right: 0px;
+
+}
+
+#page-login-signup .alert-info {    /*ajouter #page-login-signup .alert-info kane  pour cacher RSG en ligne est destiné à la RSG reconnue. tec....*/
+    display: none;
+}
+
+.home_capsules_container{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 860px;
+}
+
+#page-footer{
+    margin-top: 3em;
+}
+
+.links{
+    padding:10px;
+}
+
+.form-horizontal .editable{
+
+    padding: 5px;
+    width:95%;
+    border: 1px solid lightgray;
+
+}
+
+.editable-click, a.editable-click{
+    border-bottom: dashed 1px gray !important;
+}
+
+a.editable-click:hover {
+    color: dashed 1px #551A8B !important;
+}
+
+.logo-rsg
+{
+    border:0px !important;
+}
+
+.errorbox
+{
+    margin:10px;
+    padding:10px;
+    text-align:center;
+    color:#b94a48;
+    background-color: #f2dede;
+    border:1px solid #eed3d7;
+}
+.errormessage{
+    color: #b94a48 !important;
+}
+.errorcode{
+    display:none;
+}
+
+.static-page-title {
+    font-family: 'Sanchez', serif;
+    font-size: 14px !important;
+}
+
+.rsg_page_title  {
+	font-size: 18px;
+	margin-bottom:30px;
+	font-family: 'Sanchez';
+}
+
+#page-mod-rsg-faq .rsg_page_title, #page-mod-rsg-outils .rsg_page_title{
+    margin-left:0px;
+}
+
+#page-mod-rsg-monparcours .rsg_page_title, 
+#page-mod-rsg-outils .rsg_page_title,
+#page-mod-rsg-privacypolicy  .rsg_page_title,
+#page-mod-rsg-purchasingpolicy .rsg_page_title,
+#page-mod-rsg-listecapsules .rsg_page_title,
+#page-mod-rsg-requirements .rsg_page_title
+{
+    margin-left:15px !important;
+}
+
+.print{
+     margin-bottom: 10px;
+     margin-top:0px;
+}
+
+.print:hover{
+    color:white !important;
+}
+
+.editable-submit, .editable-cancel
+{
+    margin-top:0px !important;
+}
+
+/* Modal pour le vidéo sur la page d'authentification */
+#divBlockUI {border:none; box-shadow:none; display:none; position:relative; padding:0px; left:-45px; }
+
+#video_container {
+    width:100%;
+	max-width: 530px;
+	margin: 0 auto;
+}
+
+/* Quick fix. Pour centrer le vidéo dans la zone modale. */
+.mejs-video {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Quick fix. (va masquer les marges causé par ajustement adaptif). Background blanc. */
+.mejs-container {
+    background: #ffffff!important;
+}
+
+/* Quick fix. video intro reflow bug. */
+#myModal {
+   min-height:269px;
+}
+
+/* Quick fix. lors du scale de la fenêtre (comportement adaptif), des scrollbars apparaissent à certaines dimensions. */
+/* Le problème se présente aussi en revenant du Fullscreen. */
+/* Solution ne marche pas (environ 500 x 690), on voit très bien le vidéo qui sort du cardre. */
+/* Bug dans media element: Uncaught TypeError: Cannot read property 'tagName' of undefined  peut-être en cause. */
+.modal-body {
+  overflow: visible!important;
+}
+
+/* Cas particulier, formulaire d'inscription. */
+.form_error_list {
+    margin-left:30px;
+}
+
+/* Reçu */
+#receipt {
+    width : 80%;
+    margin : 0 auto;
+    background : white;
+    
+    /* Copie de modal */
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    border: 7px solid rgb(16, 53, 62);
+    
+    /* Approx. */
+    /*
+    padding-top:5%;
+    padding-bottom:5%;
+    padding-left:5%;
+    padding-right:5%;
+    */
+}
+
+.receipt-body {
+    /* maquette pixel... */
+    padding-top:50px;
+    padding-bottom:50px;
+    padding-left:50px;
+    padding-right:50px;
+}
+
+#receipt h2 {
+    font-size: 18px;
+    font-family: 'Sanchez';
+    text-transform: uppercase;
+    line-height: normal;
+    padding-bottom:50px; /* maquette pixel */
+    color: rgb(16, 53, 62);
+}
+
+#receipt label {
+    font-family: 'Open Sans Semibold';
+    display: inline-block;
+    color: rgb(16, 53, 62);
+}
+
+#receipt .notice-impression {
+    color:black;
+}
+
+#receipt p {
+    font-size: 13px;
+    font-family: 'Open Sans';
+    color:black;
+}
+
+#page-mod-rsg-catalogue .dialog-rsg {
+    z-index:3000; /* Fix bug. Par dessus les bandeaux de catégorie. */
+}
+
+                                   /* 4534 */
+/* kane tooltip-inner */
+	span .tooltip-inner{
+		margin-top:-100px !important;
+		
+	}
+/* fin kane tooltip-inner */
+
+[[setting:customcss]]

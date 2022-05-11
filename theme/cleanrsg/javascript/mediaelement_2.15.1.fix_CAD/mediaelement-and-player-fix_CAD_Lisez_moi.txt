@@ -1,0 +1,5 @@
+mediaelement-and-player-fix_CAD.js est le seul fichier modifié pour ajouter la traduction "fr".
+Faire la comparaison avec mediaelement-and-player.js pour voir les changements et éventuellement l'appliquer sur
+une version plus récente de la librairie.
+
+Idéelement il faudrait que le changement soit répercuté dans mediaelement-and-player.min.js (à faire).

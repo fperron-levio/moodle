@@ -1,0 +1,8 @@
+/* Cas particulier lié à l'utilisation d'Angular + noScript */
+/* Ce style permet de masquer les balises Angular {{}}} avant le parsing. */
+/* Par contre, ce style est chargé dans la librarie angular js (pas .css) et ne sera pas
+   chargé si le javascript est désactivé!
+*/
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
