@@ -1,0 +1,20 @@
+<div ng-cloak ng-controller="CatalogController">
+    <!-- Recherche:-->
+    <!-- input data-ng-model="search.name" ng-change="search_change()"-->
+    <div ng-show="capsules.length == 0 && noResultsMsg !== undefined" class="alert alert-warning">{{ noResultMsg }}</div>
+    
+    <div ng-repeat="category in infoCategories">
+        <h3 class="journey_category_title {{ category.color }} animation_category_title" ng-show="filtered_capsules.length >0">{{ category.name }}</h3>
+        <ul class="journey_capsules_container">
+            <!-- Cas particulier ng-show: État sur variable qui va être définie après. Utilise mécanique du digest..-->
+            <li class="journey_capsule animation_capsule" ng-repeat="capsule in (filtered_capsules = ((capsules | filter:{category:category.id} | filter:search)) | limitTo:getCategoryLimit(category.id)) track by capsule.id">
+                <ng-include src="statique_path_template"></ng-include>
+            </li>
+        </ul>
+        <div  class="category_footer" ng-show="filtered_capsules.length > CATEGORY_LIMIT_SHOW_MORE">
+            <div class="category_toggle" ng-class="{true:'show_more', false:'show_less'}[getCategoryLimitActive(category.id)]" ng-click="toggleCategoryLimit(category.id)">
+                <span>{{ getCategoryLimitActive(category.id) ? getString('category_toggle_more') : getString('category_toggle_less') }}</span>
+            </div>
+        </div>
+     </div>   
+</div>

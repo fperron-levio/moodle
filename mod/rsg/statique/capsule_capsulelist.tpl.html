@@ -1,0 +1,15 @@
+<!-- Styles reproduit de la page nouvelles.  -->
+<div class="static-page-title">
+   {{ capsule.name }}
+</div>
+
+<!-- Styles reproduit de la page nouvelles.  -->
+<p ng-bind-html="to_trusted(capsule.description)">
+   {{ capsule.description }}
+</p>
+
+<div class="static-page-title">
+   Outil boni
+</div>
+<p ng-bind-html="to_trusted(getString('bonus_tool_tooltip', capsule.outil))">
+</p>

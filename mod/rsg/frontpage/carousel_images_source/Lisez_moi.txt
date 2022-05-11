@@ -1,0 +1,27 @@
+Info:
+- Fichiers format photoshop CS6.
+- Image avec layer texte.
+- Styles (voir options de caractères de photoshop) récupérés le plus fidèlement possible des images originales.
+- Requiert fonte LubalinGraphStd book sur le poste (sanchez ressemble beaucoup à lubalin mais le "à" et l'espace est différent par ex.).
+	- Voir dossier "required_fonts".
+
+Utilisation
+
+Optionnel:
+- Utiliser un fichier texte intermédiaire.
+- Backup.
+
+(à répéter pour le français et l'anglais (pas obligatoire pour le moment)).
+1) Modifier le texte.
+2) Sauvegarder.
+3) Exporter en jpg (pour compression)
+      (méthode au choix):
+	a) Flatten.
+        b) Exporter en png dans le dossier ../carousel_images/lang/fr ou en
+      Ou
+        a) Save as.
+
+   Pour la compression, j'ai utilisé le niveau "7" pour les 3 images (compromis taille qualité).
+
+4) Augmenter la version du fichier xyz (pour permettre utilisation du cache et pouvoir le forcer au besoin).
+5) Commit des changements dans git.

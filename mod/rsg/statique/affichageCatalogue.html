@@ -1,0 +1,36 @@
+<div  ng-cloak>
+    <div ng-show="capsules.length == 0" class="alert alert-warning">{{ noResultMsg }}</div>
+    
+    <div id="searchCapsuleResultInfo" class="searchCapsuleResultInfoContainer" ng-show="search_query.length > 0">
+        <ng-pluralize count="capsules_searchFiltered.length"
+                when="{'0': getString('search_no_result'),
+                       'one': getString('search_one_result'),
+                       'other': getString('search_multiple_result')}"></ng-pluralize>
+    </div> 
+<!-- #3719 >
+    <div ng-repeat="category in infoCategories | orderBy:'numCapsules':'reverse'">
+-->
+    <div ng-repeat="category in infoCategories" ng-hide="capsules_groupFiltered.length == 0 && search_query.length > 0">
+<!-- < #3719 -->
+         <h3 class="catalog_category_title {{ category.color }} animation_category_title" ng-show="canShowCategory(capsules_groupFiltered)">{{ category.name }}</h3>
+        <!--<h3 class="static-page-title">{{ category.name }}</h3>-->
+         <ul class="catalog_capsules_container">
+             <!-- Cas particulier ng-show: État sur variable qui va être définie après. Utilise mécanique du digest.. -->
+            <li class="catalog_capsule animation_capsule" ng-repeat="capsule in (capsules_groupFiltered = ((capsules_searchFiltered | filter:{category:category.id})) | limitTo:getCategoryLimit(category.id)) track by capsule.id">                      
+                <div class="element-capsule">
+                    <div class="capsule_parent" data-capsuleid="{{ capsule.id }}">
+                        <ng-include src="statique_path_template"></ng-include>
+                    </div>
+                </div>
+            </li>
+              <div class="catalogue_no_capsule_yet" ng-show="canShowCategoryEmptyEmptyMsg(capsules_groupFiltered)">{{ getString('category_empty_more_later') }}</div>
+          </ul>
+               <br class="clear"> <!-- Requis pour layout. -->
+        <div  class="category_footer" ng-show="capsules_groupFiltered.length > CATEGORY_LIMIT_SHOW_MORE">
+            <div class="category_toggle" ng-class="{true:'show_more', false:'show_less'}[getCategoryLimitActive(category.id)]" ng-click="toggleCategoryLimit(category.id)">
+                <span>{{ getCategoryLimitActive(category.id) ? getString('category_toggle_more') : getString('category_toggle_less') }}</span>
+            </div>
+        </div>
+        <br class="clear"> <!-- Requis pour layout. -->
+    </div>
+</div>

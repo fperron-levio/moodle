@@ -1,0 +1,18 @@
+<div class="journey_capsule_title">
+   {{ capsule.name }}
+   <a target="_blank" class="afficher_certificat" role="button" style="{{ capsule.bouton_style }}" href="{{ capsule.bouton_href }}">
+     Certificat
+   </a>
+</div>
+<div ng-switch="capsule.capsule_completee">
+   <div class="journey_capsule_status" ng-switch-when="1">
+      <a target="_blank" class="{{ capsule.capsule_class }}" href="{{ capsule.capsule_href }}">
+         {{ capsule.status }}
+      </a>
+   </div>
+   <div class="journey_capsule_status" ng-switch-default>
+      <span class="{{ capsule.capsule_class }}">
+         {{ capsule.status }}
+      </span>
+   </div>
+</div>

@@ -1,0 +1,13 @@
+<div ng-cloak home_capsules_container  ng-controller="CatalogController">
+    <h2 class="sectionTitle" ng-hide="capsules.length == 0">{{ getString('home_capsule_discover_recent') }}</h2>
+    <ul class="home_capsules_container" >
+        <li class="home_capsule" ng-repeat="capsule in capsules">                
+            <div class="element-capsule">
+                <div class="capsule_parent" data-capsuleid="{{ capsule.id }}">
+                    <ng-include src="statique_path_template"></ng-include>
+                </div>
+            </div>
+        </li>                
+    </ul>
+    <br class="clear">
+</div>

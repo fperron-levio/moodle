@@ -1,0 +1,25 @@
+<!-- https://egghead.io/lessons/angularjs-codeschool-refactor-reusable-directives-part-1-2
+ pour voir comment rendre ça indépendant de notre directive repeat...>
+<!--HREF: Le paramètre from distingue si requête vient de widget (id->id_rsg) ou ailleur (id->id_course_module) -->
+<!--div class="capsule">
+    <div ng-if="isFrontpage" class="home_capsule_category_title {{ getCategoryColor(capsule.category) }} animation_category_title">{{ getCategoryName(capsule.category) }}</div>
+        <h2 class="tooltipCapsuleName" data-original-title="" title="">{{ capsule.name }}</h2>
+        <p class="uec" >{{ capsule.uec }}</p>
+        <p class="time tooltipCapsuleTime" >{{ capsule.duration_total_text }}</p>
+        <a rsg-link-capsule ng-model="capsule" class="btn" href="{{ capsule.url_capsule }}">Aller à la capsule</a>
+        <a rsg-link-autoevaluation ng-model="capsule" class="btn" href="{{ capsule.url_evaluation }}">Autoévaluation</a>
+</div -->
+
+<!-- #4534 -->
+
+ <div class="capsule" >
+   <span style="cursor: pointer;  ">
+        <span class="tooltipCapsuleName" > <div ng-if="isFrontpage" class="home_capsule_category_title {{ getCategoryColor(capsule.category) }} animation_category_title">{{ getCategoryName(capsule.category) }}</div>
+        <h2 class=""  data-original-title="" title="">{{ capsule.name }}</h2>
+        <p class="uec" >{{ capsule.uec }}</p>
+            </span>
+        </span>
+        <p class="time tooltipCapsuleTime" >{{ capsule.duration_total_text }}</p>
+        <a rsg-link-capsule ng-model="capsule" class="btn" href="{{ capsule.url_capsule }}">Aller à la capsule</a>
+        <a rsg-link-autoevaluation ng-model="capsule" class="btn" href="{{ capsule.url_evaluation }}">Autoévaluation</a>
+</div>
