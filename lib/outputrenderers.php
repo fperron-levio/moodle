@@ -1965,9 +1965,9 @@ class core_renderer extends renderer_base {
             // ok
             $continue->primary = true;
         } else if (is_string($continue)) {
-            $continue = new single_button(new moodle_url($continue), get_string('continue'), 'post', true);
+            $continue = new single_button(new moodle_url($continue), get_string('continuedeconnecte'), 'post', true);   /* jai remplacer continue par continuedeconnecte  kane */
         } else if ($continue instanceof moodle_url) {
-            $continue = new single_button($continue, get_string('continue'), 'post', true);
+            $continue = new single_button($continue, get_string('continuedeconnecte'), 'post', true);
         } else {
             throw new coding_exception('The continue param to $OUTPUT->confirm() must be either a URL (string/moodle_url) or a single_button instance.');
         }
@@ -2002,7 +2002,7 @@ class core_renderer extends renderer_base {
         $output .= html_writer::tag('p', $message);
         $output .= $this->box_end();
         $output .= $this->box_start('modal-footer', 'modal-footer');
-        $output .= html_writer::tag('div', $this->render($continue) . $this->render($cancel), array('class' => 'buttons'));
+        $output .= html_writer::tag('div', $this->render($cancel) . $this->render($continue), array('class' => 'buttons'));
         $output .= $this->box_end();
         $output .= $this->box_end();
         $output .= $this->box_end();
