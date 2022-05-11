@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMLDB PATH="auth/rsg/db" VERSION="2018012200" COMMENT="XMLDB file for auth/rsg module"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="rsg_inscription" COMMENT="This table saves information about a sign-up of rsg.">
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+            <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="coordofficeid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="status" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="8" SEQUENCE="false" COMMENT="The status of the RSG at the inscription."/>
+            <FIELD NAME="numeroidentification" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The time the settings for this assign module instance were last modified."/>
+            <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The time the settings for this assign module instance were last modified."/>
+        </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for this RSG inscription."/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="mdl_rsginsc_num_uix" UNIQUE="true" FIELDS="numeroidentification" COMMENT="The unique numeroidentification for this RSG inscription."/> 
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="rsg_admin_regions" COMMENT="This table contains the name of the administrative regions.">
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+            <FIELD NAME="regionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="regionname" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for this assignment instance."/>
+      </KEYS>
+      <INDEXES>
+      
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="rsg_coord_office" COMMENT="The coord office and its administrative region.">
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+            <FIELD NAME="regionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="officeid" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="officename" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for this assignment instance."/>
+      </KEYS>
+      <INDEXES>
+      
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="mdl_rsg_mfa_import" COMMENT="The data importation (CSV file with RSG représentées) from Ministère de la Famille (MFA).">
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+            <FIELD NAME="numeroidentification" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="coordofficeid" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="active" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false"/>
+            <FIELD NAME="graceend" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Datestamp of when the grace is terminated."/>
+            <FIELD NAME="gracenotice" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="1 if email about grace period is already sent."/>		
+            <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Datestamp of when the record was created."/>
+            <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Datestamp of when the record was last modified."/>
+        </FIELDS>
+        <KEYS>
+            <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for a RSG représentée that has the rights to access the capsules for free."/>
+        </KEYS>
+        <INDEXES>
+            <INDEX NAME="mdl_rsgmfaimpo_num_uix" UNIQUE="true" FIELDS="numeroidentification" COMMENT="The unique numeroidentification for this RSG inscription."/>
+        </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
