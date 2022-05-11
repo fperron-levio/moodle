@@ -1,0 +1,193 @@
+<?php
+// voir index_form.html original de Moodle.
+// La fonctionnalité $show_instructions/$columns n'est pas utilisé dans la version RSG (layout bootstrap).
+
+if (!empty($CFG->loginpasswordautocomplete)) {
+    $autocomplete = 'autocomplete="off"';
+} else {
+    $autocomplete = '';
+}
+?>
+
+<?php
+// voir index_form.html original de Moodle.
+// C'est la partie dans laquelle nous avons le plus de changements pour accomoder le look "bootstrap" qui a été développé sans trop
+// tenir compte des contraintes existantes (identificateurs (ex. loginbox)/styles/layout du login).
+// Fonctionalités implémentés dans cette section:
+//  ) Manquant|"returning to site"? 
+//  ) Manquant|skiplinks?? ($CFG->registerauth == 'email')
+//  ) PAS PRÉVU DANS MAQUETTE RSG|Détection cookie disabled + pop-up: $string['cookiesenabled'] = 'Votre navigateur doit supporter les cookies';
+//  ) PAS PRÉVU DANS MAQUETTE RSG|Erreur au login
+	// Scénarios a tester.
+	// Mauvais identifiant/mot de passe.
+	// Cookies désactivés: La gestion des témoins (cookies) n'est malheureusement pas activée actuellement dans votre navigateur
+//  ) OK||rememberusername
+//  ) OK||Username et password (limit 15!).
+//  ) OK|forgot_password
+// 	) Manquant, non-requis pour rsg.|Guest access.
+?>
+<div id="all">
+	<div id="title">
+		<h1 class="hide-text">RSG en ligne</h1>
+		<!-- EG à corriger, pourquoi c'ets un a? Span enlevé, ref texte importante pour indexation? -->
+<!--		<a href="" id="tagrsg" class="hidden-phone"></a> -->
+		<a href="" id="tagrsg_mobile" class="visible-phone"></a>
+		<div id="mobile_header" class="visible-phone"><a href=""><img src="<?php echo $OUTPUT->image_url('mobile_header', 'theme'); ?>" alt=""></a></div>
+
+        <div class="hidden-phone" id="conteneur_apropos">
+            <a id="lien_apropos" href="<?php echo $CFG->httpswwwroot; ?>/mod/rsg/apropos"
+                role="button" title="À propos">
+                <div class="hide-text">À propos</div>
+            </a>
+        </div>
+
+        <div class="hidden-phone" id="conteneur_perfectionnement">
+            <!-- <a id="lien_perfectionnement" href="<?php echo $CFG->httpswwwroot; ?>/mod/rsg/listecapsules"
+                role="button" title="Votre perfectionnement sur mesure!"> -->
+                <div class="hide-text">Votre perfectionnement sur mesure!</div>
+            <!-- </a> -->
+        </div>
+        
+	</div>
+	<div id="connect" class="container">
+    
+        <?php
+					if (!empty($errormsg)) {
+                    
+                        echo '<div class="row-fluid">';
+                    
+						//echo html_writer::start_tag('div', array('class' => 'alert alert-error'));
+						echo '<div class="alert alert-error" style="margin:5px; max-width: 464px;">';
+	          			//echo html_writer::link('#', $errormsg, array('id' => 'loginerrormessage', 'class' => 'accesshide'));
+						echo $OUTPUT->error_text($errormsg);
+					  	echo '</div>';
+                        
+                        echo '</div>';
+                        
+        			}
+		?>
+    
+    
+		<div class="row-fluid">
+
+            <div id="colg" class="span4" style="margin-bottom:15px;">
+				<script type="text/javascript">
+                    function eliminerDesZeros() {
+                        var noIdentification = document.getElementById('username').value;
+                        noIdentification = parseInt(noIdentification).toString();
+                        if (noIdentification =='NaN') {
+                           // Le nom d'utilisateur n'est pas un entier on ne fait rien
+                        } else {
+                            // Quand c'est un entier on ignore les zéros au début
+                            document.getElementById('username').value = noIdentification;
+                        }
+                    }
+				</script>
+
+			<form action="<?php echo $CFG->httpswwwroot; ?>/login/index.php" name="connect" method="post" id="login" <?php echo $autocomplete; ?>>
+				<fieldset>
+					<legend>Déjà inscrite?</legend>
+					<p><input type="text" name="username" onchange="eliminerDesZeros()" id="username" size="15" style="height:28px;width:200px;" value="<?php p($frm->username) ?>" placeholder="Votre numéro d’identification"></p>
+					<p><input type="password" name="password" id="password" size="15" style="height:28px;width:200px;"  placeholder="Votre mot de passe" value="" <?php echo $autocomplete; ?>></p>
+					<p><input type="submit" name="sendme" id="sendme"  value="Se connecter"></p>
+					<!--p><label><input type="checkbox" name="rememberme" id="rememberme"  value="1">Se souvenir de moi.</label></p-->
+					<?php if (isset($CFG->rememberusername) and $CFG->rememberusername == 2) { ?>
+					<div class="rememberpass">
+						<input type="checkbox" name="rememberusername" id="rememberusername" value="1" <?php if ($frm->username) {echo 'checked="checked"';} ?> />
+						<label for="rememberusername">Se souvenir de moi</label>
+					</div>
+					<?php } ?>
+										
+					<p><a href="<?php echo $CFG->httpswwwroot; ?>/auth/rsg/forgot_numeroidentification.php" id="codeformation">Numéro d’identification</a> ou 
+                        <a href="<?php echo $CFG->httpswwwroot; ?>/login/forgot_password.php">mot de passe</a> oublié?</p>
+					<!--div class="desc"-->
+					<?php
+						/*echo get_string("cookiesenabled");
+						echo $OUTPUT->help_icon('cookiesenabled');*/
+					?>
+					<!--/div-->	
+			   </fieldset>
+			</form>
+            
+            <form action="signup.php" method="get" id="signup">
+			   <fieldset>
+					<legend>Première connexion?</legend>
+					<p>Il s’agit de votre première visite?<br>Afin d’accéder à la plateforme, veuillez créer votre profil.</p>			
+					<div class="signupform">
+						<div><input type="submit" value="S’inscrire" /></div>
+					</div>
+				</fieldset>
+			</form>
+            
+            </div>
+
+           <div class="fieldset_horizontal_separator visible-phone"></div>
+          
+           <div id="colm" class="span4">
+		   <form action="signup.php" method="get" id="signup_idle1">
+			   <fieldset>
+               
+                    <legend>Explorer la plateforme</legend>
+                    <a id="platform_visit"  href="#myModal" role="button" data-toggle="modal">
+                    <img src="<?php echo $OUTPUT->image_url('poster_video_visite_plateforme', 'theme'); ?>">
+                    </a>
+                    
+                    <legend>Explorer une capsule de perfectionnement</legend>
+                    <a id="capsule_visit"  href="#myModal" role="button" data-toggle="modal">
+                    <img src="<?php echo $OUTPUT->image_url('poster_video_visite_capsule', 'theme'); ?>">
+                    </a>
+                    
+                    <legend>Liste des capsules disponibles</legend>
+                    <a id="catalogue_visit" href="<?php echo $CFG->httpswwwroot; ?>/mod/rsg/listecapsules" role="button">
+                    <img src="<?php echo $OUTPUT->image_url('icone_loupe', 'theme'); ?>">
+                    </a>                                    
+                    
+				</fieldset>
+			</form>
+           </div>
+        
+<?php
+// voir index_form.html original de Moodle. Gestion inscription/instructions.
+// Moodle supporte certaines combinaisons supplémentaires (ex. instructions optionnelles).
+// Nous utilisons seulement la forme pour se diriger vers le signup.php.
+// Important:  Pour afficher cette partie, il faut que $show_instructions soit évalué à true dans login/index.php
+// Il faut par exemple activer "Auto-enregistrement par courriel" dans Réglages communs de Admin/Plugins/Authentification/Gestion de l'authentification	
+/*if ($show_instructions) { */?>
+		   <div class="fieldset_horizontal_separator visible-phone"></div>
+           
+           <div id="cold" class="span4">
+           
+           <form action="signup.php" method="get" id="signup_idle2">
+			   <fieldset>            
+                    <legend>Autres formations</legend>                  
+                    
+                    <p>Des possibilités de perfectionnement de groupe vous sont offertes. Vérifiez leur disponibilité et leur coût auprès des fournisseurs. Explorez le répertoire en cliquant sur le lien ci-dessous. 
+                    </p> 
+
+                    <a href="http://www.repertoiredeformationsdesrsg.com" target="_blank"><legend style="color:#192E33;padding:0; font-size: 145%; text-shadow: #253f92 1px 1px 1px;"><u style="font-size:88%;">Répertoire de formations</u></legend></a>
+                    
+				</fieldset>
+			</form>
+
+            </div>
+<?php
+//}
+?>
+		</div>
+	</div>
+<?php
+// voir index_form.html original de Moodle. Le code a été copié mais cette fonctionnalité ne devrait pas être utilisé dans RSG.
+ if (!empty($potentialidps)) { 
+?>
+    <div class="subcontent 
+	
+	">
+        <h6><?php print_string('potentialidps', 'auth'); ?></h6>
+        <div class="potentialidplist">
+<?php foreach ($potentialidps as $idp) {
+    echo  '<div class="potentialidp"><a href="' . $idp['url']->out() . '" title="' . $idp['name'] . '">' . $OUTPUT->render($idp['icon'], $idp['name']) . $idp['name'] . '</a></div>';
+} ?>
+        </div>
+    </div>
+<?php } ?>	
+</div>
